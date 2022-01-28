@@ -24,18 +24,17 @@ namespace FS
 			}
 		}
 
-		public void Instantiate(GameObject prefab, Transform parent = null, Action<GameObject> spawnCallback = null)
+		public GameObject Instantiate(GameObject prefab, Transform parent = null)
 		{
-			Instantiate(prefab, Vector3.zero, Quaternion.identity, parent, spawnCallback);
+			return Instantiate(prefab, Vector3.zero, Quaternion.identity, parent);
 		}
 
-		public void Instantiate(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null,
-			Action<GameObject> spawnCallback = null)
+		public GameObject Instantiate(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null)
 		{
 			var spawnedObject = Object.Instantiate(prefab, position, rotation, parent);
 			ProcessSpawnedObject(spawnedObject);
-			spawnCallback?.Invoke(spawnedObject);
 			OnObjectSpawned?.Invoke(spawnedObject);
+			return spawnedObject;
 		}
 		
 		public void Destroy(GameObject destroyedObject)
