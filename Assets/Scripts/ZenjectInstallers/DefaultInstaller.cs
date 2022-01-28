@@ -1,15 +1,14 @@
-﻿using FS;
-using Lifecycle;
+﻿using Lifecycle;
 using UnityEngine;
 using Zenject;
 
 namespace Polyjam_2022
 {
-	public class CommonInstaller : Installer
+	public class DefaultInstaller : MonoInstaller
 	{
-		private ILifecycleManager lifecycleManager;
+		[SerializeField] private LifecycleManager lifecycleManager;
 
-		public CommonInstaller(ILifecycleManager lifecycleManager)
+		public DefaultInstaller(LifecycleManager lifecycleManager)
 		{
 			this.lifecycleManager = lifecycleManager;
 		}
@@ -18,13 +17,6 @@ namespace Polyjam_2022
 		{
 			Container.Bind<ILifecycleManager>().FromInstance(lifecycleManager).AsSingle();
 			Container.Bind<IGameLoopManager>().To<GameLoopManager>().FromNewComponentOnNewGameObject().AsSingle();
-		}
-	}
-
-	public class LocalInstaller : Installer
-	{
-		public override void InstallBindings()
-		{
 			Container.Bind<IWorld>().To<LocalWorld>().FromNewComponentOnNewGameObject().AsSingle();
 		}
 	}

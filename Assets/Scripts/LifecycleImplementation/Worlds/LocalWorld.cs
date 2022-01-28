@@ -1,11 +1,10 @@
-﻿using System;
-using Lifecycle;
+﻿using Lifecycle;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 using Object = UnityEngine.Object;
 
-namespace FS
+namespace Polyjam_2022
 {
 	public class LocalWorld : MonoBehaviour, IWorld
 	{
@@ -36,7 +35,18 @@ namespace FS
 			OnObjectSpawned?.Invoke(spawnedObject);
 			return spawnedObject;
 		}
-		
+
+		public ComponentType Instantiate<ComponentType>(ComponentType prefab, Transform parent = null) where ComponentType : MonoBehaviour
+		{
+			return Instantiate(prefab, Vector3.zero, Quaternion.identity, parent);
+		}
+
+		public ComponentType Instantiate<ComponentType>(ComponentType prefab, Vector3 position, Quaternion rotation,
+			Transform parent = null) where ComponentType : MonoBehaviour
+		{
+			return Instantiate(prefab.gameObject, position, rotation, parent).GetComponent<ComponentType>();
+		}
+
 		public void Destroy(GameObject destroyedObject)
 		{
 			gameLoopManager.HandleObjectDestruction(destroyedObject);
