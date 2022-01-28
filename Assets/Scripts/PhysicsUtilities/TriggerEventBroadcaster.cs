@@ -1,13 +1,10 @@
 using System;
 using UnityEngine;
-using Zenject;
 
 namespace Polyjam_2022
 {
-    public class TriggerColliderEventBroadcaster : MonoBehaviour
+    public class TriggerEventBroadcaster : MonoBehaviour
     {
-        [Inject] public Collider Collider { get; }
-        
         public event Action<Collider> OnTriggerEnterEvent;
         public event Action<Collider> OnTriggerExitEvent;
 

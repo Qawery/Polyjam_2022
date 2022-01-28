@@ -4,7 +4,10 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Scripts"
+        "Scripts",
+        "Zenject",
+        "Lifecycle",
+        "LifecycleImplementation"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

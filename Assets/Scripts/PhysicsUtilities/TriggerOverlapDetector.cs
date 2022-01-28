@@ -11,16 +11,16 @@ namespace Polyjam_2022
 		public int OverlappingColliderCount => overlappingColliders.Count;
 		public IEnumerable<Collider> OverlappingColliders => overlappingColliders;
 
-		public TriggerOverlapDetector(TriggerColliderEventBroadcaster triggerColliderEventBroadcaster)
+		public TriggerOverlapDetector(ITriggerEventBroadcaster triggerEventBroadcaster)
 		{
-			triggerColliderEventBroadcaster.OnTriggerEnterEvent += other =>
+			triggerEventBroadcaster.OnTriggerEnterEvent += other =>
 			{
 				overlappingColliders.Add(other);
 			};
 			
-			triggerColliderEventBroadcaster.OnTriggerExitEvent += other =>
+			triggerEventBroadcaster.OnTriggerExitEvent += other =>
 			{
-				overlappingColliders.Add(other);
+				overlappingColliders.Remove(other);
 			};
 		}
 	}

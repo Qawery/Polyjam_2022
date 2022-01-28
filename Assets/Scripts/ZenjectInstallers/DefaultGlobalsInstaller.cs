@@ -4,11 +4,11 @@ using Zenject;
 
 namespace Polyjam_2022
 {
-	public class DefaultInstaller : MonoInstaller
+	public class DefaultGlobalsInstaller : MonoInstaller
 	{
 		[SerializeField] private LifecycleManager lifecycleManager;
 
-		public DefaultInstaller(LifecycleManager lifecycleManager)
+		public DefaultGlobalsInstaller(LifecycleManager lifecycleManager)
 		{
 			this.lifecycleManager = lifecycleManager;
 		}

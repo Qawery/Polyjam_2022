@@ -3,14 +3,16 @@ using UnityEngine;
 
 namespace Polyjam_2022
 {
-    public class BuildingPlacementHelper
+    public class BuildingPlacer
     {
         private BuildingPhantom buildingPhantom;
         private BuildingData buildingData;
         private readonly LayerMask groundLayerMask;
         private readonly IWorld world;
+
+        public BuildingPhantom BuildingPhantom => buildingPhantom;
         
-        public BuildingPlacementHelper(IWorld world, LayerMask groundLayerMask)
+        public BuildingPlacer(IWorld world, LayerMask groundLayerMask)
         {
             this.groundLayerMask = groundLayerMask;
             this.world = world;
@@ -47,9 +49,7 @@ namespace Polyjam_2022
                 groundPointPosition = position;
             }
 
-            Transform phantomTransform = buildingPhantom.transform;
-            float offsetFromGround = phantomTransform.position.y - buildingPhantom.Collider.bounds.min.y;
-            phantomTransform.position = groundPointPosition + offsetFromGround * Vector3.up;
+            buildingPhantom.transform.position = groundPointPosition + buildingPhantom.OffsetFromCenterToBase * Vector3.up;
         }
 
         public bool TryPlaceBuildingAtCurrentPosition()
@@ -59,7 +59,7 @@ namespace Polyjam_2022
                 return false;
             }
 
-            Object.Instantiate(buildingData.BuildingPrefab, buildingPhantom.transform.position, 
+            world.Instantiate(buildingData.BuildingPrefab, buildingPhantom.transform.position, 
                 buildingPhantom.transform.rotation);
             return true;
         }
