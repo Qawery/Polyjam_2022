@@ -98,6 +98,32 @@ namespace Polyjam_2022.Tests
             }
         }
 
+        class MockLayerManager : ILayerManager
+        {
+            public LayerMask GroundLayerMask => LayerMask.GetMask("Default");
+        }
+
+        class MockPrefabCollection : IBuildingPrefabCollection
+        {
+            private BuildingPhantom buildingPhantom;
+            private Building building;
+
+            public MockPrefabCollection(BuildingPhantom buildingPhantom, Building building)
+            {
+                this.buildingPhantom = buildingPhantom;
+                this.building = building;
+            }
+
+            public BuildingPrefabData GetBuildingPrefabData(string buildingId)
+            {
+                return new BuildingPrefabData()
+                {
+                    BuildingPrefab = building,
+                    BuildingPhantomPrefab = buildingPhantom
+                };
+            }
+        }
+
         [Test]
         public void BuildingPhantomTriggerTest()
         {
@@ -164,13 +190,10 @@ namespace Polyjam_2022.Tests
 
             var buildingPhantomPrefab = buildingPhantomGO.AddComponent<BuildingPhantom>();
             container.InjectGameObject(buildingPhantomGO);
-
-            var buildingPlacementHelper = new BuildingPlacer(new MockWorld(), LayerMask.GetMask("Default"));
+            
+            var buildingPlacementHelper = new BuildingPlacer(new MockWorld(), new MockLayerManager(), new MockPrefabCollection(buildingPhantomPrefab, null));
             var targetPosition = Random.onUnitSphere * Random.Range(0, 0.5f * groundY);
-            buildingPlacementHelper.SetBuildingData(new BuildingData()
-            {
-                BuildingPhantomPrefab = buildingPhantomPrefab
-            });
+            buildingPlacementHelper.SetBuildingData(new BuildingData());
 
             yield return null;
             buildingPlacementHelper.MovePhantomToPosition(targetPosition);
@@ -200,13 +223,9 @@ namespace Polyjam_2022.Tests
             container.InjectGameObject(buildingPhantomGO);
             container.InjectGameObject(buildingPrefabGO);
 
-            var buildingPlacementHelper = new BuildingPlacer(mockWorld, LayerMask.GetMask("Default"));
+            var buildingPlacementHelper = new BuildingPlacer(mockWorld, new MockLayerManager(), new MockPrefabCollection(buildingPhantomPrefab, buildingPrefab));
             var targetPosition = Random.onUnitSphere * Random.Range(0, 0.5f * groundY);
-            buildingPlacementHelper.SetBuildingData(new BuildingData()
-            {
-                BuildingPhantomPrefab = buildingPhantomPrefab,
-                BuildingPrefab = buildingPrefab
-            });
+            buildingPlacementHelper.SetBuildingData(new BuildingData());
 
             bool spawnCallbackCalled = false;
             mockWorld.OnObjectSpawned += () => { spawnCallbackCalled = true; };

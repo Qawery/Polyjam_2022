@@ -6,7 +6,6 @@ namespace Polyjam_2022
 	{
 		public override void InstallBindings()
 		{
-			base.InstallBindings();
 			//TODO
 		}
 	}
