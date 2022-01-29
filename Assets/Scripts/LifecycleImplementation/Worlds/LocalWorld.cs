@@ -8,16 +8,15 @@ namespace Polyjam_2022
 {
 	public class LocalWorld : MonoBehaviour, IWorld
 	{
-		[Inject] private IGameLoopManager gameLoopManager = null;
-		[Inject] private ILifecycleManager lifecycleManager = null;
-		[Inject] private DiContainer container = null;
+		private DiContainer mainContainer = null;
+		private IGameLoopManager gameLoopManager = null;
+		private ILifecycleManager lifecycleManager = null;
 
 		public event System.Action<GameObject> OnObjectSpawned;
 		
 		public void Initialize()
 		{
-			var rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
-			foreach (var rootGameObject in rootGameObjects)
+			foreach (var rootGameObject in SceneManager.GetActiveScene().GetRootGameObjects())
 			{
 				ProcessSpawnedObject(rootGameObject);
 			}
@@ -53,15 +52,30 @@ namespace Polyjam_2022
 			lifecycleManager.HandleObjectDestruction(destroyedObject);
 			Object.Destroy(destroyedObject);
 		}
-		
-		public Class CreateInstance<Class>()
+
+		[Inject]
+		private void Init(IGameLoopManager gameLoopManager, ILifecycleManager lifecycleManager, DiContainer container)
 		{
-			return container.Instantiate<Class>();
+			this.mainContainer = container;
+			this.gameLoopManager = gameLoopManager;
+			this.lifecycleManager = lifecycleManager;
 		}
 		
 		private void ProcessSpawnedObject(GameObject spawnedObject)
 		{
-			container.InjectGameObject(spawnedObject);
+			var gameObjectContexts = spawnedObject.GetComponentsInChildren<GameObjectContext>();
+			if (gameObjectContexts.Length == 0)
+			{
+				mainContainer.InjectGameObject(spawnedObject);
+			}
+			else
+			{
+				foreach (var context in gameObjectContexts)
+				{
+					context.Construct(mainContainer);
+					context.Run();
+				}
+			}
 			lifecycleManager.HandleObjectSpawn(spawnedObject);
 			gameLoopManager.HandleObjectSpawn(spawnedObject);
 		}

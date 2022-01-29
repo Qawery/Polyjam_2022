@@ -19,12 +19,12 @@ namespace Polyjam_2022
 			this.boundsProvider = boundsProvider;
 			buildingPhantomOverlapDetector = new TriggerOverlapDetector(triggerEventBroadcaster);
 
-			triggerEventBroadcaster.OnTriggerEnterEvent += collider =>
+			triggerEventBroadcaster.OnTriggerEnterEvent += col =>
 			{
 				OnPlacementPossibilityChanged?.Invoke(false);
 			};
 			
-			triggerEventBroadcaster.OnTriggerExitEvent += collider =>
+			triggerEventBroadcaster.OnTriggerExitEvent += col =>
 			{
 				if (CanBePlaced)
 				{

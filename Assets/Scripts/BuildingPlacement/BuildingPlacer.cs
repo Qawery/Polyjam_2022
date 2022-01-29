@@ -1,36 +1,43 @@
+using System;
 using Lifecycle;
 using UnityEngine;
 
 namespace Polyjam_2022
 {
-    public class BuildingPlacer
+    public class BuildingPlacer : IBuildingDataReceiver, IBuildingPlacer
     {
         private BuildingPhantom buildingPhantom;
-        private BuildingData buildingData;
+        private BuildingPrefabData buildingPrefabData;
         private readonly LayerMask groundLayerMask;
         private readonly IWorld world;
+        private readonly IBuildingPrefabCollection buildingPrefabCollection;
 
         public BuildingPhantom BuildingPhantom => buildingPhantom;
         
-        public BuildingPlacer(IWorld world, LayerMask groundLayerMask)
+        public event Action<BuildingData> OnBuildingSelectionChanged;
+
+        public BuildingPlacer(IWorld world, ILayerManager layerManager, IBuildingPrefabCollection buildingPrefabCollection)
         {
-            this.groundLayerMask = groundLayerMask;
+            this.groundLayerMask = layerManager.GroundLayerMask;
             this.world = world;
+            this.buildingPrefabCollection = buildingPrefabCollection;
+            Debug.Log("constructed placer");
         }
 
-        public void SetBuildingData(BuildingData newBuildingData)
+        public void SetBuildingData(BuildingData buildingData)
         {
             if (buildingPhantom != null)
             {
                 world.Destroy(buildingPhantom.gameObject);
             }
 
-            this.buildingData = newBuildingData;
-
-            if (newBuildingData != null)
+            if (buildingData != null)
             {
-                buildingPhantom = world.Instantiate(newBuildingData.BuildingPhantomPrefab);
+                this.buildingPrefabData = buildingPrefabCollection.GetBuildingPrefabData(buildingData.BuildingId);
+                buildingPhantom = world.Instantiate(buildingPrefabData.BuildingPhantomPrefab);
             }
+            
+            OnBuildingSelectionChanged?.Invoke(buildingData);
         }
         
         public void MovePhantomToPosition(Vector3 position)
@@ -59,7 +66,7 @@ namespace Polyjam_2022
                 return false;
             }
 
-            world.Instantiate(buildingData.BuildingPrefab, buildingPhantom.transform.position, 
+            world.Instantiate(buildingPrefabData.BuildingPrefab, buildingPhantom.transform.position, 
                 buildingPhantom.transform.rotation);
             return true;
         }
