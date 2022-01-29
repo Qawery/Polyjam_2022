@@ -1,4 +1,5 @@
-﻿using Zenject;
+﻿using UnityEngine;
+using Zenject;
 
 namespace Polyjam_2022
 {
@@ -6,8 +7,11 @@ namespace Polyjam_2022
 	{
 		public override void InstallBindings()
 		{
-			Container.Bind<ITriggerEventBroadcaster>().FromComponentInChildren();
-			Container.Bind<IBoundsProvider>().FromComponentInChildren();
+			Container.Bind<ITriggerEventBroadcaster>().To<TriggerEventBroadcaster>().FromComponentOnRoot();
+			Container.Bind<IBoundsProvider>().To<ColliderBoundsProvider>().FromComponentOnRoot();
+			Container.Bind<Collider>().FromComponentsInChildren();
+			Container.Bind<BuildingPhantom>().FromComponentOnRoot();
+			Container.Bind<MeshRenderer>().FromComponentsInChildren();
 		}
 	}
 }

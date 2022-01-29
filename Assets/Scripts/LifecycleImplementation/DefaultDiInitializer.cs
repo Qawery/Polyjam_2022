@@ -9,14 +9,14 @@ namespace Polyjam_2022
 	{
 		public override DiContainer InitializeDi(ILifecycleManager lifecycleManager)
 		{
-			var sceneContext = Object.FindObjectOfType<SceneContext>();
+			var sceneContext = FindObjectOfType<SceneContext>();
 			if (sceneContext == null)
 			{
 				Debug.Log("No scene context found. Spawning a new one");
 				sceneContext = RunnableContext
 					.CreateComponent<SceneContext>(new GameObject("SceneDiContext"));
 			}
-			
+
 			sceneContext.Install();
 			return sceneContext.Container;
 		}

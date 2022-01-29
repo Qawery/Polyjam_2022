@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Polyjam_2022
 {
-    public class TriggerEventBroadcaster : MonoBehaviour
+    public class TriggerEventBroadcaster : MonoBehaviour, ITriggerEventBroadcaster
     {
         public event Action<Collider> OnTriggerEnterEvent;
         public event Action<Collider> OnTriggerExitEvent;
