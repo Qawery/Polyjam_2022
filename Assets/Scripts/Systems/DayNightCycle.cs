@@ -3,16 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace Polyjam_2022
 {
-    public class DayNightCycle
+    public class DayNightCycle : MonoBehaviour
     {
-        private const float StartingTimeProgress = 0;
-        private float TimeProgress { get; set; } = StartingTimeProgress;
+        [SerializeField, Range(0.0f, 1.0f)] private float startingTimeProgress = 0;
+        [SerializeField, Range(1.0f, 5000.0f)] private float cycleSeconds = 5.0f;
+        private float TimeProgress { get; set; } = 0;
         public event System.Action<DayNightCycle> OnCycleChanged;
 
+        private void Awake()
+        {
+            TimeProgress = startingTimeProgress;
+        }
+
+        private void Update()
+        {
+            UpdateTimeProgress(Time.deltaTime / cycleSeconds);
+        }
         public bool IsDay()
         {
             return TimeProgress < 0.5f;
@@ -42,6 +53,16 @@ namespace Polyjam_2022
             if(IsDay() != previousDay)
             {
                 OnCycleChanged?.Invoke(this);
+
+                //TODO: remove this
+                if (IsDay())
+                {
+                    FindObjectOfType<Light>().color = Color.white;
+                }
+                else
+                {
+                    FindObjectOfType<Light>().color = Color.black;
+                }
             }
         }
     }
