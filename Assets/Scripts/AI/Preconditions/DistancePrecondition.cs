@@ -5,9 +5,9 @@ namespace Polyjam_2022
 {
     public class DistancePrecondition : Precondition
     {
-        private readonly IPositionProvider source;
-        private readonly IPositionProvider target;
-        private readonly float distance;
+        public readonly IPositionProvider source;
+        public readonly IPositionProvider target;
+        public readonly float distance;
 
         public DistancePrecondition(IPositionProvider source, IPositionProvider target, float distance)
         {
