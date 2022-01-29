@@ -4,32 +4,22 @@ namespace Polyjam_2022
 {
     public class HasAmountOfResources : Precondition
     {
-        public readonly Resources resourceHolder;
+        public readonly Resources resources;
         public readonly float amount;
 
-        public HasAmountOfResources(IResourceHolder resourceHolder) : this(resourceHolder.Resources, float.Epsilon)
-        {
-        }
-
-        public HasAmountOfResources(IResourceHolder resourceHolder, float amount) : this(resourceHolder.Resources, amount)
-        {
-        }
-
-        public HasAmountOfResources(Resources resourceHolder) : this(resourceHolder, float.Epsilon)
-        {
-        }
-
-        public HasAmountOfResources(Resources resourceHolder, float amount)
+        public HasAmountOfResources(IResourceHolder resourceHolder, float amount = float.Epsilon)
         {
             Assert.IsNotNull(resourceHolder);
-            this.resourceHolder = resourceHolder;
+            Assert.IsNotNull(resourceHolder.Resources);
+            this.resources = resourceHolder.Resources;
+
             Assert.IsTrue(amount >= 0.0f);
             this.amount = amount;
         }
 
         public override bool IsSatisified()
         {
-            return resourceHolder != null && resourceHolder.CurrentAmount >= amount;
+            return resources != null && resources.CurrentAmount >= amount;
         }
     }
 }

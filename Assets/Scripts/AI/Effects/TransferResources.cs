@@ -9,15 +9,19 @@ namespace Polyjam_2022
         private readonly Resources destination;
         private readonly float amount;
 
-        public TransferResources(Resources source, Resources destination, float amount = float.MaxValue)
+        public TransferResources(IResourceHolder source, IResourceHolder destination, float amount = float.MaxValue)
         {
             Assert.IsFalse(source == destination);
-            this.source = source;
             Assert.IsNotNull(source);
-            this.destination = destination;
+            Assert.IsNotNull(source.Resources);
+            this.source = source.Resources;
+
             Assert.IsNotNull(destination);
-            this.amount = amount;
+            Assert.IsNotNull(destination.Resources);
+            this.destination = destination.Resources;
+
             Assert.IsTrue(amount > 0.0f);
+            this.amount = amount;
         }
 
         public override void TakeEffect(float deltaTime)

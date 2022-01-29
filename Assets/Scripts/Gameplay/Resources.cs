@@ -2,11 +2,12 @@ using UnityEngine.Assertions;
 
 namespace Polyjam_2022
 {
-    public class Resources
+    public class Resources : IResourceHolder
     {
         private readonly float maxCapacity;
         private float currentAmount;
 
+        public Resources Resources => this;
         public float CapacityLeft => maxCapacity - currentAmount;
         public float MaxCapacity => maxCapacity;
         public float CurrentAmount
@@ -14,16 +15,18 @@ namespace Polyjam_2022
             get => currentAmount;
             set
             {
+                Assert.IsTrue(value >= 0.0f);
+                Assert.IsTrue(value <= maxCapacity);
                 currentAmount = value;
-                Assert.IsTrue(currentAmount >= 0.0f);
-                Assert.IsTrue(currentAmount <= maxCapacity);
             }
         }
 
         public Resources(float maxCapacity, float currentAmount)
         {
+            Assert.IsTrue(maxCapacity > 0.0f);
             this.maxCapacity = maxCapacity;
-            this.currentAmount = currentAmount;
+
+            CurrentAmount = currentAmount;
         }
 
         public static Resources CreateFullResourceHolder(float maxCapacity)

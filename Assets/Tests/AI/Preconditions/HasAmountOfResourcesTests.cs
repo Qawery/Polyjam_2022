@@ -7,10 +7,10 @@ namespace Polyjam_2022.Tests
         [Test]
         public void HasAmountOfResourcesTest()
         {
-            var resourceHolder = Resources.CreateFullResourceHolder(1.0f);
-            var hasResources = new HasAmountOfResources(resourceHolder, 1.0f);
+            var resources = Resources.CreateFullResourceHolder(1.0f);
+            var hasResources = new HasAmountOfResources(resources, 1.0f);
             Assert.IsTrue(hasResources.IsSatisified());
-            resourceHolder.CurrentAmount = 0.0f;
+            resources.CurrentAmount = 0.0f;
             Assert.IsFalse(hasResources.IsSatisified());
         }
     }
