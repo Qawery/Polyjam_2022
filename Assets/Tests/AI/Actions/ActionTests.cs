@@ -5,6 +5,17 @@ namespace Polyjam_2022.Tests
     public class ActionTests
     {
         [Test]
+        public void NullPreconditionActionTest()
+        {
+            var effect = new MockEffect();
+            var action = new Action(null, new Effect[] { effect });
+
+            Assert.IsTrue(action.IsValid());
+            Assert.IsTrue(action.TryExecute(0.0f));
+            Assert.IsTrue(effect.takenEffect);
+        }
+
+        [Test]
         public void FalsePreconditionActionTest()
         {
             var precondition = new MockFalsePrecondition();

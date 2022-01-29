@@ -88,7 +88,7 @@ namespace Polyjam_2022
             return SupportsType(type) && currentAmountPerType[type] >= amount;
         }
 
-        public bool HasResource(List<(ResourceType type, int amount)> resources)
+        public bool HasResource(IEnumerable<(ResourceType type, int amount)> resources)
         {
             foreach (var resource in resources)
             {
@@ -107,7 +107,7 @@ namespace Polyjam_2022
             currentAmountPerType[type] += amount;
         }
 
-        public void InsertResource(List<(ResourceType type, int amount)> resources)
+        public void InsertResource(IEnumerable<(ResourceType type, int amount)> resources)
         {
             foreach (var resource in resources)
             {
@@ -123,7 +123,7 @@ namespace Polyjam_2022
             currentAmountPerType[type] -= amount;
         }
 
-        public void TakeResource(List<(ResourceType type, int amount)> resources)
+        public void TakeResource(IEnumerable<(ResourceType type, int amount)> resources)
         {
             foreach (var resource in resources)
             {
