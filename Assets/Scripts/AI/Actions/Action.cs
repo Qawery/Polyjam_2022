@@ -10,7 +10,10 @@ namespace Polyjam_2022
 
         public Action(IEnumerable<Precondition> preconditions, IEnumerable<Effect> effects)
         {
-            this.preconditions.AddRange(preconditions);
+            if (preconditions != null)
+            {
+                this.preconditions.AddRange(preconditions);
+            }
 
             this.effects.AddRange(effects);
             Assert.IsTrue(this.effects.Count > 0);
