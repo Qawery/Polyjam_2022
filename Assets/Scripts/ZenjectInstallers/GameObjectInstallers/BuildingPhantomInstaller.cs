@@ -6,7 +6,8 @@ namespace Polyjam_2022
 	{
 		public override void InstallBindings()
 		{
-			Container.Bind<TriggerEventBroadcaster>().FromComponentInChildren();
+			Container.Bind<ITriggerEventBroadcaster>().FromComponentInChildren();
+			Container.Bind<IBoundsProvider>().FromComponentInChildren();
 		}
 	}
 }

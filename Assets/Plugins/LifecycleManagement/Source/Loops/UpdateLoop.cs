@@ -6,7 +6,7 @@ namespace Lifecycle
 	public class UpdateLoop
 	{
 		private float tickTimer = 0;
-		private List<TickDelegate> tickDelegates = new List<TickDelegate>();
+		private readonly List<TickDelegate> tickDelegates = new List<TickDelegate>();
 
 		public bool IsEnabled { get; set; }
 		public float TickTime { get; set; }

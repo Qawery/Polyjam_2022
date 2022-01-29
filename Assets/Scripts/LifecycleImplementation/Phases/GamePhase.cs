@@ -12,8 +12,8 @@ namespace Polyjam_2022
 		public override void StartPhase()
 		{
 			base.StartPhase();
-			gameLoopManager.RegisterUpdateLoop(new UpdateLoop("Main"), false);
-			gameLoopManager.RegisterUpdateLoop(new UpdateLoop("MainPhysics"), true);
+			gameLoopManager.RegisterUpdateLoop(new UpdateLoop(UpdateLoopIds.MAIN_LOOP_NAME), false);
+			gameLoopManager.RegisterUpdateLoop(new UpdateLoop(UpdateLoopIds.MAIN_PHYSICS_LOOP_NAME), true);
 		}
 	}
 }

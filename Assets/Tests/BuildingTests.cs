@@ -5,7 +5,6 @@ using Lifecycle;
 using NUnit.Framework;
 using Polyjam_2022;
 using UnityEngine;
-using UnityEngine.TestTools;
 using Zenject;
 using Random = UnityEngine.Random;
 
@@ -51,29 +50,33 @@ public class BuildingTests
 
     class MockWorld : IWorld
     {
+        public event System.Action OnObjectSpawned;
+        
         public void Initialize()
         {
         }
 
         public GameObject Instantiate(GameObject prefab, Transform parent = null)
         {
-            return prefab;
+            return Instantiate(prefab, Vector3.zero, Quaternion.identity, parent);
         }
 
         public GameObject Instantiate(GameObject prefab, Vector3 position, Quaternion rotation, Transform parent = null)
         {
+            OnObjectSpawned?.Invoke();
             return prefab;
         }
 
         public ComponentType Instantiate<ComponentType>(ComponentType prefab, Transform parent = null) where ComponentType : MonoBehaviour
         {
-            return prefab;
+            return Instantiate(prefab, Vector3.zero, Quaternion.identity, parent);
         }
 
         public ComponentType Instantiate<ComponentType>(ComponentType prefab, Vector3 position, Quaternion rotation,
             Transform parent = null) where ComponentType : MonoBehaviour
         {
-            return prefab;
+            return Instantiate(prefab.gameObject, Vector3.zero, Quaternion.identity, parent)
+                .GetComponent<ComponentType>();
         }
 
         public Class CreateInstance<Class>()
@@ -131,8 +134,8 @@ public class BuildingTests
         Assert.IsTrue(buildingPhantom.CanBePlaced);
     }
     
-    [UnityTest]
-    public IEnumerator BuildingPhantomMovementTest()
+    [Test]
+    public void BuildingPhantomMovementTest()
     {
         const int groundY = -40;
         const int boundsHeight = 15;
@@ -145,29 +148,65 @@ public class BuildingTests
         container.Bind<IBoundsProvider>().FromInstance(mockBoundsProvider);
         var groundGO = new GameObject("Ground");
         var groundCollider = groundGO.AddComponent<BoxCollider>();
-        groundCollider.size = new Vector3(1000, 0, 1000);
+        groundCollider.size = new Vector3(1000, 0.1f, 1000);
+        groundCollider.isTrigger = false;
         groundGO.transform.position = new Vector3(0, groundY, 0);
+        groundGO.layer = LayerMask.NameToLayer("Default");
         
         var buildingPhantomPrefab = buildingPhantomGO.AddComponent<BuildingPhantom>();
         container.InjectGameObject(buildingPhantomGO);
 
-        yield return null;
-
-        var buildingPlacementHelper = new BuildingPlacer(new MockWorld(), LayerMask.NameToLayer("Default"));
+        var buildingPlacementHelper = new BuildingPlacer(new MockWorld(), LayerMask.GetMask("Default"));
         var targetPosition = Random.onUnitSphere * Random.Range(0, 0.5f * groundY);
         buildingPlacementHelper.SetBuildingData(new BuildingData()
         {
             BuildingPhantomPrefab = buildingPhantomPrefab
         });
-
-        buildingPlacementHelper.MovePhantomToPosition(targetPosition);
         
+        buildingPlacementHelper.MovePhantomToPosition(targetPosition);
         Assert.IsTrue(Math.Abs(groundY + boundsHeight - buildingPlacementHelper.BuildingPhantom.transform.position.y) < 0.001f);
     }
     
     [Test]
     public void BuildingPlacementTest()
     {
+        const int groundY = -40;
+        const int boundsHeight = 15;
+        
+        GameObject buildingPhantomGO = new GameObject("Building phantom");
+        var mockTriggerEventBroadcaster = new MockTriggerEventBroadcaster();
+        var mockBoundsProvider = new MockBoundsProvider(buildingPhantomGO, boundsHeight);
+        var mockWorld = new MockWorld();
+        
+        var container = new DiContainer();
+        container.Bind<ITriggerEventBroadcaster>().FromInstance(mockTriggerEventBroadcaster);
+        container.Bind<IBoundsProvider>().FromInstance(mockBoundsProvider);
+        container.Bind<IWorld>().FromInstance(mockWorld);
+        
+        var buildingPhantomPrefab = buildingPhantomGO.AddComponent<BuildingPhantom>();
+        var buildingPrefabGO = new GameObject("Building");
+        var buildingPrefab = (buildingPrefabGO).AddComponent<Building>();
+        container.InjectGameObject(buildingPhantomGO);
+        container.InjectGameObject(buildingPrefabGO);
 
+        var buildingPlacementHelper = new BuildingPlacer(new MockWorld(), LayerMask.GetMask("Default"));
+        var targetPosition = Random.onUnitSphere * Random.Range(0, 0.5f * groundY);
+        buildingPlacementHelper.SetBuildingData(new BuildingData()
+        {
+            BuildingPhantomPrefab = buildingPhantomPrefab,
+            BuildingPrefab = buildingPrefab
+        });
+        
+        bool spawnCallbackCalled = false;
+        mockWorld.OnObjectSpawned += () => { spawnCallbackCalled = true; };
+        
+        buildingPlacementHelper.MovePhantomToPosition(targetPosition);
+        mockTriggerEventBroadcaster.TriggerEnter();
+        Assert.IsFalse(buildingPlacementHelper.TryPlaceBuildingAtCurrentPosition());
+        Assert.IsFalse(spawnCallbackCalled);
+        
+        mockTriggerEventBroadcaster.TriggerExit();
+        Assert.IsTrue(buildingPlacementHelper.TryPlaceBuildingAtCurrentPosition());
+        Assert.IsTrue(spawnCallbackCalled);
     }
 }

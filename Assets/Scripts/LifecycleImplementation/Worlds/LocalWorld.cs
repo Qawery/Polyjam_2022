@@ -36,12 +36,12 @@ namespace Polyjam_2022
 			return spawnedObject;
 		}
 
-		public ComponentType Instantiate<ComponentType>(ComponentType prefab, Transform parent = null) where ComponentType : MonoBehaviour
+		public new ComponentType Instantiate<ComponentType>(ComponentType prefab, Transform parent = null) where ComponentType : MonoBehaviour
 		{
 			return Instantiate(prefab, Vector3.zero, Quaternion.identity, parent);
 		}
 
-		public ComponentType Instantiate<ComponentType>(ComponentType prefab, Vector3 position, Quaternion rotation,
+		public new ComponentType Instantiate<ComponentType>(ComponentType prefab, Vector3 position, Quaternion rotation,
 			Transform parent = null) where ComponentType : MonoBehaviour
 		{
 			return Instantiate(prefab.gameObject, position, rotation, parent).GetComponent<ComponentType>();
