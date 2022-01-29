@@ -1,34 +1,50 @@
 using UnityEngine;
 using UnityEngine.Assertions;
+using System.Collections.Generic;
 
 namespace Polyjam_2022
 {
     public class TransferResources : Effect
     {
-        private readonly Resources source;
-        private readonly Resources destination;
-        private readonly float amount;
+        private readonly ResourceManager source;
+        private readonly ResourceManager destination;
+        private readonly List<(ResourceType type, int amount)> resources = new List<(ResourceType type, int amount)>();
 
-        public TransferResources(IResourceHolder source, IResourceHolder destination, float amount = float.MaxValue)
+        public TransferResources(IResourceHolder source, IResourceHolder destination, IEnumerable<(ResourceType type, int amount)> resources)
         {
             Assert.IsFalse(source == destination);
             Assert.IsNotNull(source);
-            Assert.IsNotNull(source.ResourcesHeld);
-            this.source = source.ResourcesHeld;
+            Assert.IsNotNull(source.Resources);
+            this.source = source.Resources;
 
             Assert.IsNotNull(destination);
-            Assert.IsNotNull(destination.ResourcesHeld);
-            this.destination = destination.ResourcesHeld;
+            Assert.IsNotNull(destination.Resources);
+            this.destination = destination.Resources;
 
-            Assert.IsTrue(amount > 0.0f);
-            this.amount = amount;
+            this.resources.AddRange(resources);
+            Assert.IsTrue(this.resources.Count > 0);
+            foreach (var resource in this.resources)
+            {
+                Assert.IsTrue(resource.amount > 0);
+            }
         }
 
         public override void TakeEffect(float deltaTime)
         {
-            float amountToTransfer = Mathf.Min(source.CurrentAmount, destination.CapacityLeft, amount);
-            source.CurrentAmount -= amountToTransfer;
-            destination.CurrentAmount += amountToTransfer;
+            foreach (var resource in resources)
+            {
+                int sourceAmount = 0;
+                if (source.TryGetCurrentAmount(ref sourceAmount, resource.type))
+                {
+                    int amountTotransfer = Mathf.Min(sourceAmount, destination.CapacityLeft, resource.amount);
+                    source.TakeResource(resource.type, amountTotransfer);
+                    destination.InsertResource(resource.type, amountTotransfer);
+                }
+                if (destination.CapacityLeft == 0)
+                {
+                    return;
+                }
+            }
         }
     }
 }

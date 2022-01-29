@@ -6,11 +6,11 @@ namespace Polyjam_2022
 {
     public class Unit : MonoBehaviour, IResourceManipulator, IPositionProvider
     {
-        [SerializeField, Range(0.0f, 1000.0f)] private readonly float startingMaxCapacity = 10.0f;
+        [SerializeField, Range(0, 1000)] private readonly int startingMaxCapacity = 10;
         private NavMeshAgent navMeshAgent;
 
         public NavMeshAgent NavMeshAgent => navMeshAgent;
-        public Resources ResourcesHeld { get; private set; }
+        public ResourceManager Resources { get; private set; }
         public float Range => 2.0f;
         public Vector3 Position => transform.position;
 
@@ -18,7 +18,8 @@ namespace Polyjam_2022
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
             Assert.IsNotNull(navMeshAgent);
-            ResourcesHeld = Resources.CreateEmptyResourceHolder(startingMaxCapacity);
+            var allResourceTypes = 
+            Resources = new ResourceManager(startingMaxCapacity, ResourceManager.GetAllTypes());
         }
     }
 }

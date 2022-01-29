@@ -1,29 +1,27 @@
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Polyjam_2022.Tests
 {
     public class TransferResourcesTests
     {
         [Test]
-        public void TransferAllResourcesTest()
+        public void TransferResourcesTest()
         {
-            var source = Resources.CreateFullResourceHolder(1.0f);
-            var destination = Resources.CreateEmptyResourceHolder(1.0f);
-            var transferResources = new TransferResources(source, destination, 1.0f);
+            var source = new ResourceManager(10, new List<(ResourceType type, int amount)> { (ResourceType.Gold, 10) });
+            var destination = new ResourceManager(10, ResourceType.Gold);
+            var transferResources = new TransferResources(source, destination, new List<(ResourceType type, int amount)>{ (ResourceType.Gold, 10) });
             transferResources.TakeEffect(0.0f);
-            Assert.IsTrue(source.CurrentAmount == 0.0f);
-            Assert.IsTrue(destination.CurrentAmount == 1.0f);
-        }
 
-        [Test]
-        public void TransferAllAvailableResourcesTest()
-        {
-            var source = new Resources(1.0f, 0.5f);
-            var destination = Resources.CreateEmptyResourceHolder(1.0f);
-            var transferResources = new TransferResources(source, destination, 1.0f);
-            transferResources.TakeEffect(0.0f);
-            Assert.IsTrue(source.CurrentAmount == 0.0f);
-            Assert.IsTrue(destination.CurrentAmount == 0.5f);
+            Assert.IsTrue(source.CurrentTotalAmount == 0);
+            int amount = -1;
+            Assert.IsTrue(source.TryGetCurrentAmount(ref amount, ResourceType.Gold));
+            Assert.IsTrue(amount == 0);
+
+            Assert.IsTrue(destination.CurrentTotalAmount == 10);
+            amount = -1;
+            Assert.IsTrue(destination.TryGetCurrentAmount(ref amount, ResourceType.Gold));
+            Assert.IsTrue(amount == 10);
         }
     }
 }
