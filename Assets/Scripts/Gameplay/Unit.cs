@@ -4,28 +4,20 @@ using UnityEngine.Assertions;
 
 namespace Polyjam_2022
 {
-    public class Unit : MonoBehaviour, IResourceHolder
+    public class Unit : MonoBehaviour, IResourceHolder, IPositionProvider
     {
         [SerializeField, Range(0.0f, 1000.0f)] private readonly float startingMaxCapacity = 10.0f;
-        private ResourceHolder resourceHolder;
         private NavMeshAgent navMeshAgent;
 
         public NavMeshAgent NavMeshAgent => navMeshAgent;
-        public float MaxCapacity => resourceHolder.MaxCapacity;
-        public float CurrentAmmount
-        {
-            get => resourceHolder.CurrentAmmount;
-            set
-            {
-                resourceHolder.CurrentAmmount = value;
-            }
-        }
+        public Resources Resources { get; private set; }
+        public Vector3 Position => transform.position;
 
         private void Awake()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
             Assert.IsNotNull(navMeshAgent);
-            resourceHolder = ResourceHolder.CreateEmptyResourceHolder(startingMaxCapacity);
+            Resources = Resources.CreateEmptyResourceHolder(startingMaxCapacity);
         }
     }
 }
