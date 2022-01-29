@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.Assertions;
 
-namespace Assets.Scripts
+namespace Polyjam_2022
 {
     public class DayNightCycle
     {
