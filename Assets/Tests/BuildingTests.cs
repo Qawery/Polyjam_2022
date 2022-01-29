@@ -95,6 +95,7 @@ namespace Polyjam_2022.Tests
 
             public void Destroy(GameObject gameObject)
             {
+               
             }
         }
 
