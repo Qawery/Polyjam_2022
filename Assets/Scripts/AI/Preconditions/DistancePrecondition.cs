@@ -23,7 +23,7 @@ namespace Polyjam_2022
 
         public override bool IsSatisified()
         {
-            return (source != null && target != null) ? Vector3.Distance(source.Position, target.Position) <= distance : false;
+            return source != null && target != null && Vector3.Distance(source.Position, target.Position) <= distance;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Polyjam_2022
         private readonly float maxCapacity;
         private float currentAmount;
 
-        public Resources Resources => this;
+        public Resources ResourcesHeld => this;
         public float CapacityLeft => maxCapacity - currentAmount;
         public float MaxCapacity => maxCapacity;
         public float CurrentAmount

@@ -489,6 +489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f3e1cc51dc3be47816146bf569789a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedUnit: {fileID: 0}
 --- !u!1 &768463430
 GameObject:
   m_ObjectHideFlags: 0
@@ -995,6 +996,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65ce96efed53d9a4394931dd0a2d94ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxCapacity: 0
+  startingAmmount: 0
 --- !u!1001 &206285464284872741
 PrefabInstance:
   m_ObjectHideFlags: 0

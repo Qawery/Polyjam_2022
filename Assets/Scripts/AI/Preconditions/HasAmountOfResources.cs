@@ -10,8 +10,8 @@ namespace Polyjam_2022
         public HasAmountOfResources(IResourceHolder resourceHolder, float amount = float.Epsilon)
         {
             Assert.IsNotNull(resourceHolder);
-            Assert.IsNotNull(resourceHolder.Resources);
-            this.resources = resourceHolder.Resources;
+            Assert.IsNotNull(resourceHolder.ResourcesHeld);
+            this.resources = resourceHolder.ResourcesHeld;
 
             Assert.IsTrue(amount >= 0.0f);
             this.amount = amount;

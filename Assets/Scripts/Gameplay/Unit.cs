@@ -10,7 +10,7 @@ namespace Polyjam_2022
         private NavMeshAgent navMeshAgent;
 
         public NavMeshAgent NavMeshAgent => navMeshAgent;
-        public Resources Resources { get; private set; }
+        public Resources ResourcesHeld { get; private set; }
         public float Range => 2.0f;
         public Vector3 Position => transform.position;
 
@@ -18,7 +18,7 @@ namespace Polyjam_2022
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
             Assert.IsNotNull(navMeshAgent);
-            Resources = Resources.CreateEmptyResourceHolder(startingMaxCapacity);
+            ResourcesHeld = Resources.CreateEmptyResourceHolder(startingMaxCapacity);
         }
     }
 }

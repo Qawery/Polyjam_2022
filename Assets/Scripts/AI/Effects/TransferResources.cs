@@ -13,12 +13,12 @@ namespace Polyjam_2022
         {
             Assert.IsFalse(source == destination);
             Assert.IsNotNull(source);
-            Assert.IsNotNull(source.Resources);
-            this.source = source.Resources;
+            Assert.IsNotNull(source.ResourcesHeld);
+            this.source = source.ResourcesHeld;
 
             Assert.IsNotNull(destination);
-            Assert.IsNotNull(destination.Resources);
-            this.destination = destination.Resources;
+            Assert.IsNotNull(destination.ResourcesHeld);
+            this.destination = destination.ResourcesHeld;
 
             Assert.IsTrue(amount > 0.0f);
             this.amount = amount;
