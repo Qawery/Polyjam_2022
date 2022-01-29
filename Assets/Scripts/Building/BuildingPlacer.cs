@@ -18,18 +18,18 @@ namespace Polyjam_2022
             this.world = world;
         }
 
-        public void SetBuildingData(BuildingData buildingData)
+        public void SetBuildingData(BuildingData newBuildingData)
         {
             if (buildingPhantom != null)
             {
                 world.Destroy(buildingPhantom.gameObject);
             }
 
-            this.buildingData = buildingData;
+            this.buildingData = newBuildingData;
 
-            if (buildingData != null)
+            if (newBuildingData != null)
             {
-                buildingPhantom = world.Instantiate(buildingData.BuildingPhantomPrefab);
+                buildingPhantom = world.Instantiate(newBuildingData.BuildingPhantomPrefab);
             }
         }
         
@@ -37,7 +37,7 @@ namespace Polyjam_2022
         {
             Vector3 groundPointPosition;
             if (Physics.Raycast(new Ray(position, Vector3.down), out RaycastHit hitInfo, 
-                    float.MaxValue, groundLayerMask, QueryTriggerInteraction.Ignore) &&
+                    float.MaxValue, groundLayerMask, QueryTriggerInteraction.Ignore) ||
                 Physics.Raycast(new Ray(position, Vector3.up), out hitInfo, 
                     float.MaxValue, groundLayerMask, QueryTriggerInteraction.Ignore))
             {
