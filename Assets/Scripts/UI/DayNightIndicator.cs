@@ -1,9 +1,8 @@
-﻿using Polyjam_2022;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using Zenject;
 
-namespace UI
+namespace Polyjam_2022
 {
     public class DayNightIndicator : MonoBehaviour
     {

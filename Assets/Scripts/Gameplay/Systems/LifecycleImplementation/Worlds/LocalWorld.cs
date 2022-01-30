@@ -1,4 +1,5 @@
-﻿using Lifecycle;
+﻿using System;
+using Lifecycle;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -44,6 +45,16 @@ namespace Polyjam_2022
 			Transform parent = null) where ComponentType : MonoBehaviour
 		{
 			return Instantiate(prefab.gameObject, position, rotation, parent).GetComponent<ComponentType>();
+		}
+
+		public ComponentType Instantiate<ComponentType>(ComponentType prefab, Vector3 position, Quaternion rotation,
+			Action<ComponentType> initializer, Transform parent = null) where ComponentType : MonoBehaviour
+		{
+			var spawnedObject = Object.Instantiate(prefab, position, rotation, parent);
+			ProcessSpawnedObject(spawnedObject.gameObject);
+			initializer(spawnedObject);
+			OnObjectSpawned?.Invoke(spawnedObject.gameObject);
+			return spawnedObject;
 		}
 
 		public void Destroy(GameObject destroyedObject)
