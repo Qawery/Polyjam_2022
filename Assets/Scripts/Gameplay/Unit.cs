@@ -4,7 +4,8 @@ using UnityEngine.Assertions;
 
 namespace Polyjam_2022
 {
-    public class Unit : MonoBehaviour, IResourceManipulator, IMovableAgent
+    public class Unit : MonoBehaviour, IMobileResourceManipulator, IMobileAttacker, IPlayerOwnership, IAttackTarget
+   , IMovableAgent
     {
         [SerializeField, Range(1, 1000)] private readonly int startingMaxCapacity = 10;
         [SerializeField, Range(0, 1)] private readonly int playerId = 0;
