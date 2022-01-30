@@ -26,7 +26,7 @@ namespace Polyjam_2022
         private ResourceSource currentTargetResourceSource = null;
 
         public GatheringResources(IMobileResourceManipulator resourceManipulator, IResourceLocation resourceDestinationLocation,
-                                    IEnumerable<ResourceType> wantedResources)
+                                    IEnumerable<ResourceType> wantedResources, ResourceSource source = null)
         {
             Assert.IsNotNull(resourceManipulator);
             this.resourceManipulator = resourceManipulator;
@@ -41,6 +41,7 @@ namespace Polyjam_2022
             }
             Assert.IsNotNull(resourceDestinationLocation);
             this.resourceDestinationLocation = resourceDestinationLocation;
+            this.currentTargetResourceSource = source;
 
             returnToBaseAction = MovementActions.MoveToDestination(resourceManipulator, resourceDestinationLocation, resourceManipulator.Range);
             areWeAtBase = returnToBaseAction.PostConditions[0] as CloserThan;
