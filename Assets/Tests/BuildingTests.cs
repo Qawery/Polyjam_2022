@@ -52,7 +52,7 @@ namespace Polyjam_2022.Tests
 
         class MockWorld : IWorld
         {
-            public event System.Action OnObjectSpawned;
+            public event System.Action<GameObject> OnObjectSpawned;
 
             public MockWorld()
             {
@@ -71,7 +71,7 @@ namespace Polyjam_2022.Tests
             public GameObject Instantiate(GameObject prefab, Vector3 position, Quaternion rotation,
                 Transform parent = null)
             {
-                OnObjectSpawned?.Invoke();
+                OnObjectSpawned?.Invoke(prefab);
                 return prefab;
             }
 
@@ -246,7 +246,7 @@ namespace Polyjam_2022.Tests
             buildingPlacementHelper.SetBuildingData(new BuildingData());
 
             bool spawnCallbackCalled = false;
-            mockWorld.OnObjectSpawned += () => { spawnCallbackCalled = true; };
+            mockWorld.OnObjectSpawned += (GameObject x) => { spawnCallbackCalled = true; };
 
             buildingPlacementHelper.MovePhantomToPosition(targetPosition);
             mockTriggerEventBroadcaster.TriggerEnter();
@@ -302,7 +302,7 @@ namespace Polyjam_2022.Tests
             buildingPlacementHelper.TryPlaceBuildingAtCurrentPosition();
             
             bool spawnCallbackCalled = false;
-            mockWorld.OnObjectSpawned += () => { spawnCallbackCalled = true; };
+            mockWorld.OnObjectSpawned += (GameObject x) => { spawnCallbackCalled = true; };
 
             constructionSite.Resources.InsertResource(ResourceType.Gold, 10);
             Assert.IsNotNull(constructionSite);
