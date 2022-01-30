@@ -47,6 +47,9 @@ namespace Polyjam_2022
             areWeAtBase = returnToBaseAction.PostConditions[0] as CloserThan;
             Assert.IsNotNull(areWeAtBase);
             unloadToBaseAction = ResourceTransferActions.GiveResourcesOfTypeToDestination(resourceManipulator, resourceDestinationLocation, resourceDestinationLocation, wantedResources);
+
+            goToResourceAction = MovementActions.MoveToDestination(resourceManipulator, currentTargetResourceSource, resourceManipulator.Range);
+            takeResourcesFromSourceAction = ResourceTransferActions.GetResourcesOfTypeFromSource(resourceManipulator, currentTargetResourceSource, currentTargetResourceSource, wantedResources);
         }
 
         public override void Execute(float deltaTime)
@@ -58,10 +61,6 @@ namespace Polyjam_2022
 
             if (resourceManipulator.Resources.CapacityLeft > 0)
             {
-                if (currentTargetResourceSource == null)
-                {
-                    FindNewTargetResourceSource();
-                }
                 if (currentTargetResourceSource != null)
                 {
                     if (takeResourcesFromSourceAction.IsValid())
@@ -99,25 +98,27 @@ namespace Polyjam_2022
             currentAction?.TryExecute(deltaTime);
         }
 
-        private void FindNewTargetResourceSource()
-        {
-            var potentialSources = GameObject.FindObjectsOfType<ResourceSource>();
-            foreach (var potentialSource in potentialSources)
-            {
-                if (ResourceHelpers.HasCommonResources(wantedResources, potentialSource.Resources.SupportedTypes) && 
-                    (currentTargetResourceSource == null ||
-                        Vector3.Distance(resourceManipulator.Position, potentialSource.Position) <
-                        Vector3.Distance(resourceManipulator.Position, currentTargetResourceSource.Position)))
-                {
-                    currentTargetResourceSource = potentialSource;
-                }
-            }
-            if (currentTargetResourceSource != null)
-            {
-                goToResourceAction = MovementActions.MoveToDestination(resourceManipulator, currentTargetResourceSource, resourceManipulator.Range);
-                takeResourcesFromSourceAction = ResourceTransferActions.GetResourcesOfTypeFromSource(resourceManipulator, currentTargetResourceSource, currentTargetResourceSource, wantedResources);
-            }
-        }
+
+       
+        //private void FindNewTargetResourceSource()
+        //{
+        //    var potentialSources = GameObject.FindObjectsOfType<ResourceSource>();
+        //    foreach (var potentialSource in potentialSources)
+        //    {
+        //        if (ResourceHelpers.HasCommonResources(wantedResources, potentialSource.Resources.SupportedTypes) && 
+        //            (currentTargetResourceSource == null ||
+        //                Vector3.Distance(resourceManipulator.Position, potentialSource.Position) <
+        //                Vector3.Distance(resourceManipulator.Position, currentTargetResourceSource.Position)))
+        //        {
+        //            currentTargetResourceSource = potentialSource;
+        //        }
+        //    }
+        //    if (currentTargetResourceSource != null)
+        //    {
+        //        goToResourceAction = MovementActions.MoveToDestination(resourceManipulator, currentTargetResourceSource, resourceManipulator.Range);
+        //        takeResourcesFromSourceAction = ResourceTransferActions.GetResourcesOfTypeFromSource(resourceManipulator, currentTargetResourceSource, currentTargetResourceSource, wantedResources);
+        //    }
+        //}
     }
 }
 

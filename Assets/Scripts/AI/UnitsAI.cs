@@ -40,6 +40,11 @@ namespace Polyjam_2022
             {
                 OnConstructionSiteSpawn(gameObject);
             }
+            else if (gameObject.GetComponent<ResourceSource>() != null)
+            {
+                gatheringAI.AddResourceSource(gameObject.GetComponent<ResourceSource>());
+     
+            }
         }
 
         private void OnConstructionSiteSpawn(GameObject gameObject)

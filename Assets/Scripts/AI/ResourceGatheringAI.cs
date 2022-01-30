@@ -18,6 +18,7 @@ namespace Polyjam_2022
 
         }
 
+        static int test = 0;
         public void AddResourceSource(ResourceSource source)
         {
             foreach (var type in source.Resources.SupportedTypes)
