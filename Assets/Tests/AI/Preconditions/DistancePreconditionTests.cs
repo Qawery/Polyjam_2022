@@ -8,19 +8,18 @@ namespace Polyjam_2022.Tests
         [Test]
         public void DistancePreconditionTest()
         {
-            var source = new GameObject();
-            var sourcePosition = source.AddComponent<PositionFromTransform>();
-            var target = new GameObject();
-            var targetPosition = target.AddComponent<PositionFromTransform>();
+            var sourcePosition = new MockPositionProvider();
+            var targetPosition = new MockPositionProvider();
             var distancePrecondition = new DistancePrecondition(sourcePosition, targetPosition, 1.0f);
 
-            target.transform.position = new Vector3(0.0f, 0.0f, 2.0f);
-            Assert.IsFalse(distancePrecondition.IsSatisified());
-            target.transform.position = Vector3.zero;
             Assert.IsTrue(distancePrecondition.IsSatisified());
-            //TODO: Fix when lifecycle is implemented!
-            //GameObject.DestroyImmediate(target);
-            //Assert.IsFalse(distancePrecondition.IsSatisified());
+            targetPosition.Position = new Vector3(0.0f, 0.0f, 5.0f);
+            Assert.IsFalse(distancePrecondition.IsSatisified());
         }
+    }
+
+    public class MockPositionProvider : IPositionProvider
+    {
+        public Vector3 Position { get; set; } = Vector3.zero;
     }
 }
