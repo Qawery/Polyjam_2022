@@ -49,6 +49,7 @@ namespace Polyjam_2022.Tests
             Assert.IsTrue(resources.MaxCapacity == 8);
             Assert.IsTrue(resources.SupportsType(ResourceType.Gold));
             Assert.IsTrue(resources.SupportsType(ResourceType.Stone));
+            Assert.IsTrue(resources.SupportsTypes(new List<ResourceType> { ResourceType.Gold, ResourceType.Stone }));
 
             Assert.IsTrue(resources.CapacityLeft == 8);
             Assert.IsTrue(resources.CurrentTotalAmount == 0);

@@ -2,13 +2,13 @@ using UnityEngine.Assertions;
 
 namespace Polyjam_2022
 {
-    public class HasAmountOfResourceType : Precondition
+    public class HasAmountOfResource : Precondition
     {
         public readonly ResourceManager resources;
         public readonly ResourceType type;
         public readonly int requiredAmount;
 
-        public HasAmountOfResourceType(IResourceHolder resourceHolder, ResourceType type, int requiredAmount = 1)
+        public HasAmountOfResource(IResourceHolder resourceHolder, ResourceType type, int requiredAmount = 1)
         {
             Assert.IsNotNull(resourceHolder);
             Assert.IsNotNull(resourceHolder.Resources);

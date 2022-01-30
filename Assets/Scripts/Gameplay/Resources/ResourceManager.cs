@@ -79,7 +79,19 @@ namespace Polyjam_2022
         {
             return currentAmountPerType.ContainsKey(type);
         }
-        
+
+        public bool SupportsTypes(IEnumerable<ResourceType> types)
+        {
+            foreach (var type in types)
+            {
+                if (!currentAmountPerType.ContainsKey(type))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public bool TryGetCurrentAmount(ResourceType type, out int currentAmount)
         {
             if (SupportsType(type))
