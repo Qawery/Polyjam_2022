@@ -12,8 +12,7 @@ namespace Polyjam_2022
 
         private void Update()
         {
-            if (!Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hitInfo, float.MaxValue,
-                    layerManager.GroundLayerMask))
+            if (!Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out var hitInfo, float.MaxValue, layerManager.GroundLayerMask))
             {
                 IsMouseOnGround = false;
                 return;

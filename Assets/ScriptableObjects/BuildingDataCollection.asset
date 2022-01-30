@@ -13,10 +13,50 @@ MonoBehaviour:
   m_Name: BuildingDataCollection
   m_EditorClassIdentifier: 
   buildingData:
-  - BuildingId: test_building
-    BuildingName: Test Building
-    ResourceRequirements:
+  - BuildingId: forge
+    BuildingName: Forge
+    ConstructionResourceRequirements:
+    - ResourceType: 1
+      RequiredAmount: 3
     - ResourceType: 2
       RequiredAmount: 5
-    - ResourceType: 1
+    Recipes:
+    - ConsumptionData:
+      - ResourceType: 1
+        RequiredAmount: 5
+      ProductionData:
+      - ProductionType: 1
+        ProducedResource: 5
+        ProducedAmount: 1
+        ProductionCooldown: 2
+    ResourceCapacity: 50
+  - BuildingId: hut
+    BuildingName: Hut
+    ConstructionResourceRequirements:
+    - ResourceType: 2
+      RequiredAmount: 15
+    Recipes:
+    - ConsumptionData:
+      - ResourceType: 4
+        RequiredAmount: 5
+      - ResourceType: 5
+        RequiredAmount: 1
+      ProductionData:
+      - ProductionType: 0
+        ProducedResource: 0
+        ProducedAmount: 1
+        ProductionCooldown: 10
+    ResourceCapacity: 50
+  - BuildingId: potato_field
+    BuildingName: Potato Field
+    ConstructionResourceRequirements:
+    - ResourceType: 2
       RequiredAmount: 2
+    Recipes:
+    - ConsumptionData: []
+      ProductionData:
+      - ProductionType: 1
+        ProducedResource: 0
+        ProducedAmount: 1
+        ProductionCooldown: 3
+    ResourceCapacity: 50

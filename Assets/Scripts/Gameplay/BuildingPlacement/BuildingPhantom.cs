@@ -3,20 +3,17 @@ using Zenject;
 
 namespace Polyjam_2022
 {
-	public class BuildingPhantom : MonoBehaviour
+	public class BuildingPhantom : PlacedObject
 	{
-		private IBoundsProvider boundsProvider;
 		private TriggerOverlapDetector buildingPhantomOverlapDetector;
 		
 		public bool CanBePlaced => buildingPhantomOverlapDetector.OverlappingColliderCount == 0;
-		public float OffsetFromCenterToBase => transform.position.y - boundsProvider.Bounds.min.y;
-
+		
 		public event System.Action<bool> OnPlacementPossibilityChanged;
 			
 		[Inject]
-		private void Init(ITriggerEventBroadcaster triggerEventBroadcaster, IBoundsProvider boundsProvider)
+		private void Init(ITriggerEventBroadcaster triggerEventBroadcaster)
 		{
-			this.boundsProvider = boundsProvider;
 			buildingPhantomOverlapDetector = new TriggerOverlapDetector(triggerEventBroadcaster);
 
 			triggerEventBroadcaster.OnTriggerEnterEvent += col =>

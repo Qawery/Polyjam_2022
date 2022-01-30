@@ -24,6 +24,7 @@ namespace Polyjam_2022
 			Container.Bind<IBuildingPrefabCollection>().FromInstance(buildingPrefabCollection);
 			Container.Bind<IGameLoopManager>().To<GameLoopManager>().FromNewComponentOnNewGameObject().AsSingle();
 			Container.Bind<IWorld>().To<LocalWorld>().FromNewComponentOnNewGameObject().AsSingle();
+			Container.Bind<IDayNightCycle>().To<DayNightCycle>().FromComponentInHierarchy().AsSingle();
 
 			Container.BindInterfacesTo<BuildingPlacer>().AsSingle();
 			Container.Bind<IGroundDetector>().To<GroundDetector>().FromNewComponentOnNewGameObject()

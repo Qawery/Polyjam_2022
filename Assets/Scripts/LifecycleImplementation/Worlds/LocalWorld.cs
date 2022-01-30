@@ -63,18 +63,15 @@ namespace Polyjam_2022
 		
 		private void ProcessSpawnedObject(GameObject spawnedObject)
 		{
+			mainContainer.InjectGameObject(spawnedObject);
 			var gameObjectContexts = spawnedObject.GetComponentsInChildren<GameObjectContext>();
-			if (gameObjectContexts.Length == 0)
+			foreach (var context in gameObjectContexts)
 			{
-				mainContainer.InjectGameObject(spawnedObject);
-			}
-			else
-			{
-				foreach (var context in gameObjectContexts)
+				if (context.Initialized)
 				{
-					context.Construct(mainContainer);
-					context.Run();
+					continue;
 				}
+				context.Run();
 			}
 			lifecycleManager.HandleObjectSpawn(spawnedObject);
 			gameLoopManager.HandleObjectSpawn(spawnedObject);

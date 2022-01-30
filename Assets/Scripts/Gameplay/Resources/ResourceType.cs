@@ -3,8 +3,10 @@
     public enum ResourceType
     {
         Gold,
+        Iron,
         Wood,
         Stone,
         Potatoes,
+        Tools
     }
 }

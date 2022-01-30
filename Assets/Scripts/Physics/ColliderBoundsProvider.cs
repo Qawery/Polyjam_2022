@@ -12,7 +12,7 @@ namespace Polyjam_2022
 		{
 			get
 			{
-				var bounds = new Bounds (transform.position , Vector3.zero);
+				var bounds = new Bounds(transform.position, Vector3.zero);
 				foreach (Collider col in colliders)
 				{
 					bounds.Encapsulate(col.bounds);

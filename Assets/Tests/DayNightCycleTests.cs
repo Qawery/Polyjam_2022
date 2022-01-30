@@ -16,14 +16,14 @@ namespace Polyjam_2022.Tests
         [Test]
         public void CycleTest()
         {
-            DayNightCycle cycle = new DayNightCycle();
+            DayNightCycle cycle = (new GameObject("test")).AddComponent<DayNightCycle>();
             cycle.OnCycleChanged += Cycle_OnCycleChanged;
 
             var time = cycle.GetHourMinute();
-            Assert.IsTrue(cycle.IsDay());
+            Assert.IsTrue(cycle.IsDay);
             Assert.IsTrue(time.Item1 == 0 && time.Item2 == 0);
             cycle.UpdateTimeProgress(0.75f);
-            Assert.IsTrue(cycle.IsNight());
+            Assert.IsTrue(cycle.IsNight);
             time = cycle.GetHourMinute();
             Assert.IsTrue(time.Item1 == 18);
 

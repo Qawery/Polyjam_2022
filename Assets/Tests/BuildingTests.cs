@@ -101,6 +101,8 @@ namespace Polyjam_2022.Tests
         class MockLayerManager : ILayerManager
         {
             public LayerMask GroundLayerMask => LayerMask.GetMask("Default");
+            public LayerMask UnitLayerMask { get; }
+            public LayerMask BuildingLayerMask { get; }
         }
 
         class MockPrefabCollection : IBuildingPrefabCollection
@@ -124,6 +126,16 @@ namespace Polyjam_2022.Tests
                     ConstructionSitePrefab = constructionSite,
                     BuildingPhantomPrefab = buildingPhantom
                 };
+            }
+        }
+
+        class MockUnitSpawner : IUnitSpawner
+        {
+            public int SpawnsQueued { get; private set; }
+            
+            public void QueueUnitSpawn()
+            {
+                ++SpawnsQueued;
             }
         }
         
@@ -219,6 +231,7 @@ namespace Polyjam_2022.Tests
             container.Bind<ITriggerEventBroadcaster>().FromInstance(mockTriggerEventBroadcaster);
             container.Bind<IBoundsProvider>().FromInstance(mockBoundsProvider);
             container.Bind<IWorld>().FromInstance(mockWorld);
+            container.Bind<IUnitSpawner>().To<MockUnitSpawner>().AsSingle();
 
             var buildingPhantomPrefab = buildingPhantomGO.AddComponent<BuildingPhantom>();
             var buildingPrefabGO = new GameObject("Building");
@@ -260,6 +273,7 @@ namespace Polyjam_2022.Tests
             container.Bind<ITriggerEventBroadcaster>().FromInstance(mockTriggerEventBroadcaster);
             container.Bind<IBoundsProvider>().FromInstance(mockBoundsProvider);
             container.Bind<IWorld>().FromInstance(mockWorld);
+            container.Bind<IUnitSpawner>().To<MockUnitSpawner>().AsSingle();
 
             var buildingPhantomPrefab = buildingPhantomGO.AddComponent<BuildingPhantom>();
             var constructionSitePrefab = new GameObject("ConstructionSite");
@@ -276,7 +290,7 @@ namespace Polyjam_2022.Tests
             var targetPosition = Random.onUnitSphere * Random.Range(0, 0.5f * groundY);
             buildingPlacementHelper.SetBuildingData(new BuildingData()
             {
-                ResourceRequirements = new List<ResourceRequirement>()
+                ConstructionResourceRequirements = new List<ResourceRequirement>()
                 {
                     new ResourceRequirement() {ResourceType = ResourceType.Gold, RequiredAmount = 10},
                     new ResourceRequirement() {ResourceType = ResourceType.Potatoes, RequiredAmount = 10},
@@ -305,6 +319,61 @@ namespace Polyjam_2022.Tests
             constructionSite.Resources.InsertResource(ResourceType.Stone, 5);
             constructionSite.Resources.InsertResource(ResourceType.Potatoes, 5);
             Assert.IsTrue(spawnCallbackCalled);
+        }
+
+        [UnityTest]
+        public IEnumerator ProductionTest()
+        {
+            const float recipeCooldown = 1.55f;
+
+            var buildingData = new BuildingData()
+            {
+                BuildingId = "test",
+                BuildingName = "Test",
+                ResourceCapacity = 50,
+                Recipes = new List<Recipe>()
+                {
+                    new Recipe()
+                    {
+                        ProductionCooldown = recipeCooldown,
+                        ConsumptionData = new List<ResourceRequirement>() { new ResourceRequirement() { ResourceType = ResourceType.Gold, RequiredAmount = 2 } },
+                        ProductionData = new List<ProductionData>()
+                        {
+                            new ProductionData() { ProducedAmount = 1, ProductionType = ProductionType.Unit },
+                            new ProductionData() { ProducedAmount = 5, ProductionType = ProductionType.Resource, ProducedResource = ResourceType.Potatoes }
+                        }
+                    }
+                }
+            };
+            
+            var unitSpawner = new MockUnitSpawner();
+            var container = new DiContainer();
+            container.Bind<IUnitSpawner>().FromInstance(unitSpawner);
+
+            var building = (new GameObject("Building")).AddComponent<Building>();
+            container.InjectGameObject(building.gameObject);
+            building.BuildingData = buildingData;
+            
+            building.Resources.InsertResource(ResourceType.Gold, 1);
+            yield return new WaitForSeconds(recipeCooldown + 0.1f);
+            Assert.AreEqual(0, unitSpawner.SpawnsQueued);
+            
+            building.Resources.InsertResource(ResourceType.Gold, 1);
+            yield return null;
+            Assert.AreEqual(1, unitSpawner.SpawnsQueued);
+            Assert.IsTrue(building.Resources.TryGetCurrentAmount(ResourceType.Potatoes, out int amount) && amount == 5);
+            Assert.IsTrue(building.Resources.TryGetCurrentAmount(ResourceType.Gold, out amount) && amount == 0);
+            
+            building.Resources.InsertResource(ResourceType.Gold, 2);
+            yield return null;
+            Assert.AreEqual(1, unitSpawner.SpawnsQueued);
+            Assert.IsTrue(building.Resources.TryGetCurrentAmount(ResourceType.Potatoes, out amount) && amount == 5);
+            Assert.IsTrue(building.Resources.TryGetCurrentAmount(ResourceType.Gold, out amount) && amount == 2);
+
+            yield return new WaitForSeconds(recipeCooldown + 0.1f);
+            Assert.AreEqual(2, unitSpawner.SpawnsQueued);
+            Assert.IsTrue(building.Resources.TryGetCurrentAmount(ResourceType.Potatoes, out amount) && amount == 10);
+            Assert.IsTrue(building.Resources.TryGetCurrentAmount(ResourceType.Gold, out amount) && amount == 0);
         }
     }
 }

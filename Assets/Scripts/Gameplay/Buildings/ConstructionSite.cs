@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Polyjam_2022
 {
-    public class ConstructionSite : MonoBehaviour, IResourceHolder
+    public class ConstructionSite : PlacedObject, IResourceHolder
     {
         [Inject] private IWorld world = null;
         [Inject] private IBuildingPrefabCollection buildingPrefabCollection;
@@ -16,10 +16,10 @@ namespace Polyjam_2022
             set
             {
                 Resources = new ResourceManager(int.MaxValue,
-                    value.ResourceRequirements.Select(requirement => requirement.ResourceType));
+                    value.ConstructionResourceRequirements.Select(requirement => requirement.ResourceType));
                 Resources.OnTotalAmountChanged += newValue =>
                 {
-                    foreach (ResourceRequirement requirement in buildingData.ResourceRequirements)
+                    foreach (ResourceRequirement requirement in buildingData.ConstructionResourceRequirements)
                     {
                         if (!Resources.TryGetCurrentAmount(requirement.ResourceType, out int amount))
                         {
@@ -31,14 +31,23 @@ namespace Polyjam_2022
                             return;
                         }
                     }
-
-                    world.Instantiate(buildingPrefabCollection.GetBuildingPrefabData(buildingData.BuildingId).BuildingPrefab, transform.position, transform.rotation);
-                    world.Destroy(gameObject);
+                    
+                    CompleteConstruction();
                 };
                 buildingData = value;
             }
         }
+        
+        public Vector3 PlacementPosition { private get; set; }
 
-        public ResourceManager Resources { get; private set; } 
+        public ResourceManager Resources { get; private set; }
+
+        public void CompleteConstruction()
+        {
+            var building = world.Instantiate(buildingPrefabCollection.GetBuildingPrefabData(buildingData.BuildingId).BuildingPrefab, PlacementPosition, transform.rotation);
+            building.BuildingData = buildingData;
+            building.transform.position = PlacementPosition;
+            world.Destroy(gameObject);
+        }
     }
 }
