@@ -35,7 +35,7 @@ namespace Polyjam_2022
             if (buildingData != null)
             {
                 this.buildingPrefabData = buildingPrefabCollection.GetBuildingPrefabData(buildingData.BuildingId);
-                buildingPhantom = world.Instantiate(buildingPrefabData.BuildingPhantomPrefab);
+                buildingPhantom = world.Instantiate(buildingPrefabData.BuildingPhantomPrefab, Vector3.one * 1000, Quaternion.identity);
             }
 
             this.buildingData = buildingData;
@@ -43,6 +43,37 @@ namespace Polyjam_2022
         }
         
         public void MovePhantomToPosition(Vector3 position)
+        {
+            buildingPhantom.PlaceBaseAtPosition(GetGroundPosition(position));
+        }
+
+        public void RotatePhantom(float angle)
+        {
+            buildingPhantom.transform.rotation *= Quaternion.AngleAxis(angle, Vector3.up);
+        }
+
+        public bool TryPlaceBuildingAtCurrentPosition()
+        {
+            if (!buildingPhantom.CanBePlaced)
+            {
+                return false;
+            }
+
+            Vector3 placementPosition = GetGroundPosition(buildingPhantom.transform.position);
+            var constructionSite = world.Instantiate(buildingPrefabData.ConstructionSitePrefab, placementPosition,
+                buildingPhantom.transform.rotation);
+            constructionSite.PlaceBaseAtPosition(placementPosition);
+            constructionSite.BuildingData = buildingData;
+            constructionSite.PlacementPosition = buildingPhantom.transform.position;
+            return true;
+        }
+
+        public void Release()
+        {
+            SetBuildingData(null);
+        }
+
+        private Vector3 GetGroundPosition(Vector3 position)
         {
             Vector3 groundPointPosition;
             if (Physics.Raycast(new Ray(position, Vector3.down), out RaycastHit hitInfo, 
@@ -58,24 +89,7 @@ namespace Polyjam_2022
                 groundPointPosition = position;
             }
 
-            buildingPhantom.transform.position = groundPointPosition + buildingPhantom.OffsetFromCenterToBase * Vector3.up;
-        }
-
-        public bool TryPlaceBuildingAtCurrentPosition()
-        {
-            if (!buildingPhantom.CanBePlaced)
-            {
-                return false;
-            }
-
-            world.Instantiate(buildingPrefabData.ConstructionSitePrefab, buildingPhantom.transform.position, 
-                buildingPhantom.transform.rotation).BuildingData = buildingData;
-            return true;
-        }
-
-        public void Release()
-        {
-            SetBuildingData(null);
+            return groundPointPosition;
         }
     }
 }

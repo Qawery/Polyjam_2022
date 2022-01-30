@@ -13,6 +13,7 @@ namespace Polyjam_2022
 			{
 				diContainer.Instantiate<WorldInitializationPhase>(),
 				diContainer.Instantiate<GamePhase>(),
+				diContainer.Instantiate<SummaryPhase>(),
 				diContainer.Instantiate<ReleaseScene>()
 			};
 	}

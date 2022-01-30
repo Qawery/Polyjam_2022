@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Lifecycle;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Zenject;
 using ITickable = Lifecycle.ITickable;
 
@@ -38,14 +37,16 @@ namespace Polyjam_2022
             }
 
             placer.MovePhantomToPosition(groundDetector.MousePositionOnGround);
-            if (Input.GetKeyUp(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 placer.TryPlaceBuildingAtCurrentPosition();
             }
-            else if (Input.GetKeyUp(KeyCode.Mouse1))
+            else if (Input.GetKeyDown(KeyCode.Mouse1))
             {
                 placer.Release();
             }
+            
+            placer.RotatePhantom(Input.mouseScrollDelta.y * 10);
         }
     }
 }

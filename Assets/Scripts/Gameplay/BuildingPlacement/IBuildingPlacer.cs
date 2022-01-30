@@ -7,6 +7,7 @@ namespace Polyjam_2022
         event System.Action<BuildingData> OnBuildingSelectionChanged;
         void MovePhantomToPosition(Vector3 position);
         bool TryPlaceBuildingAtCurrentPosition();
+        void RotatePhantom(float angle);
         void Release();
     }
 }

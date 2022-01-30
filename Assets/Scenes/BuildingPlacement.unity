@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 1357343706}
   - component: {fileID: 1357343709}
   - component: {fileID: 1357343708}
+  - component: {fileID: 1357343710}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -374,6 +375,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingButtonPrefab: {fileID: 3184935675959055123, guid: 888df8bf578921d4b92cc8f7b4157a8d, type: 3}
   buttonParentTransform: {fileID: 1357343705}
+--- !u!114 &1357343710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357343704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22780d068ded41cba9ad2cdd4ae670cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enabledDuringDayPhase: 1
 --- !u!1 &1430857559
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,6 +399,9 @@ GameObject:
   - component: {fileID: 1430857560}
   - component: {fileID: 1430857562}
   - component: {fileID: 1430857561}
+  - component: {fileID: 1430857564}
+  - component: {fileID: 1430857563}
+  - component: {fileID: 1430857565}
   m_Layer: 5
   m_Name: DayNightText
   m_TagString: Untagged
@@ -508,6 +525,48 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1430857559}
   m_CullTransparentMesh: 1
+--- !u!114 &1430857563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430857559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66c4e649e2a849e08391bfecc48fad79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1430857564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430857559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 1430857563}
+  _installerPrefabs: []
+  _autoRun: 0
+  _kernel: {fileID: 0}
+--- !u!114 &1430857565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430857559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fd5bac83f6d42fdbef1d43ec8df5847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1523759407
 GameObject:
   m_ObjectHideFlags: 0

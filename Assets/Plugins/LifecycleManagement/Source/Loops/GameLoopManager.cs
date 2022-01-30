@@ -40,12 +40,14 @@ namespace Lifecycle
 			}
 		}
 
-		public void RemoveUpdateLoop(UpdateLoop updateLoop)
+		public void RemoveUpdateLoop(string loopName)
 		{
-			Assert.IsNotNull(updateLoop);
-			updateLoops.Remove(updateLoop);
-			fixedUpdateLoops.Remove(updateLoop);
-			nameToLoop.Remove(updateLoop.Name);
+			if (nameToLoop.TryGetValue(loopName, out var loop))
+			{
+				updateLoops.Remove(loop);
+				fixedUpdateLoops.Remove(loop);
+				nameToLoop.Remove(loop.Name);
+			}
 		}
 
 		public void HandleObjectSpawn(GameObject spawnedObject)

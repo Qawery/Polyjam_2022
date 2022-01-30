@@ -15,5 +15,11 @@ namespace Polyjam_2022
 			gameLoopManager.RegisterUpdateLoop(new UpdateLoop(UpdateLoopIds.MAIN_LOOP_NAME), false);
 			gameLoopManager.RegisterUpdateLoop(new UpdateLoop(UpdateLoopIds.MAIN_PHYSICS_LOOP_NAME), true);
 		}
+
+		public override void FinishPhase()
+		{
+			base.FinishPhase();
+			gameLoopManager.RemoveUpdateLoop(UpdateLoopIds.MAIN_LOOP_NAME);
+		}
 	}
 }
