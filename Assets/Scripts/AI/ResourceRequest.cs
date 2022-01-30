@@ -9,9 +9,13 @@ namespace Polyjam_2022
     public class ResourceRequest
     {
         public ResourceType ResourceType { get; set; } = 0;
- 
+
+        public IResourceLocation Destination { get; set; } = null;
+
         public int Priority { get; set; } = 0;
 
         public int Amount { get; set; } = 0;
+
+
     }
 }

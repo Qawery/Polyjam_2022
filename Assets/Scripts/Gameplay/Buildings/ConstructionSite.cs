@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Polyjam_2022
 {
-    public class ConstructionSite : PlacedObject, IResourceHolder
+    public class ConstructionSite : PlacedObject, IResourceHolder, IResourceLocation
     {
         [Inject] private IWorld world = null;
         [Inject] private IBuildingPrefabCollection buildingPrefabCollection;
@@ -13,6 +13,7 @@ namespace Polyjam_2022
         
         public BuildingData BuildingData
         {
+            get => buildingData;
             set
             {
                 Resources = new ResourceManager(int.MaxValue,
@@ -40,6 +41,7 @@ namespace Polyjam_2022
         
         public Vector3 PlacementPosition { private get; set; }
 
+        public Vector3 Position => transform.position;
         public ResourceManager Resources { get; private set; }
 
         public void CompleteConstruction()

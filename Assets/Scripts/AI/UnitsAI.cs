@@ -11,28 +11,76 @@ namespace Polyjam_2022
 {
     public class UnitsAI : MonoBehaviour
     {
+        private float timeSinceLastUpdate = 0;
+        [SerializeField] private float updateInterval = 0.1f;
         [Inject] private IWorld world;
+        private ResourceGatheringAI gatheringAI;
+       
+        HashSet<Unit> availableUnits = new HashSet<Unit>();
+        HashSet<Unit> busyUnits = new HashSet<Unit>();
 
-        List<GameObject> units = new List<GameObject>();
+        List<Task> activeTasks = new List<Task>();
 
         [Inject]
         private void Init(IWorld world)
         {
             this.world = world;
+            this.gatheringAI = new ResourceGatheringAI();
             world.OnObjectSpawned += World_OnObjectSpawned;
         }
 
         private void World_OnObjectSpawned(GameObject gameObject)
         {
-            if (gameObject.GetComponent<Unit>() != null)
+            var unit = gameObject.GetComponent<Unit>();
+            if (unit  != null)
             {
-                units.Add(gameObject);
+                availableUnits.Add(unit);
+            }
+            else if(gameObject.GetComponent<ConstructionSite>() != null)
+            {
+                OnConstructionSiteSpawn(gameObject);
+            }
+        }
+
+        private void OnConstructionSiteSpawn(GameObject gameObject)
+        {
+            var constructionSite = gameObject.GetComponent<ConstructionSite>();
+
+            foreach(var requirement in constructionSite.BuildingData.ConstructionResourceRequirements)
+            {
+                gatheringAI.AddRequest(new ResourceRequest()
+                {
+                    Amount = requirement.RequiredAmount,
+                    ResourceType = requirement.ResourceType,
+                    Destination = constructionSite,
+                    Priority = 0
+                });
             }
         }
 
         private void Update()
         {
-            
+            foreach(var currentTask in activeTasks)
+            {
+                currentTask.Execute(Time.deltaTime);
+            }
+            timeSinceLastUpdate += Time.deltaTime;
+            if (timeSinceLastUpdate < updateInterval)
+                return;
+
+            timeSinceLastUpdate = 0;
+
+            if (availableUnits.Count == 0)
+                return;
+
+            var task = gatheringAI.GetNextGatheringTask(availableUnits);
+            if (task.Item1 == null)
+                return;
+
+            availableUnits.Remove(task.Item2);
+            busyUnits.Add(task.Item2);
+
+            activeTasks.Add(task.Item1);
         }
     }
 }
