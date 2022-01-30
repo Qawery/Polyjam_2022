@@ -15,12 +15,12 @@ namespace Polyjam_2022.Tests
 
             Assert.IsTrue(source.CurrentTotalAmount == 0);
             int amount = -1;
-            Assert.IsTrue(source.TryGetCurrentAmount(ref amount, ResourceType.Gold));
+            Assert.IsTrue(source.TryGetCurrentAmount(ResourceType.Gold, out amount));
             Assert.IsTrue(amount == 0);
 
             Assert.IsTrue(destination.CurrentTotalAmount == 10);
             amount = -1;
-            Assert.IsTrue(destination.TryGetCurrentAmount(ref amount, ResourceType.Gold));
+            Assert.IsTrue(destination.TryGetCurrentAmount(ResourceType.Gold, out amount));
             Assert.IsTrue(amount == 10);
         }
     }

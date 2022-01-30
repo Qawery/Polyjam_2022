@@ -34,7 +34,7 @@ namespace Polyjam_2022
             foreach (var resource in resources)
             {
                 int sourceAmount = 0;
-                if (source.TryGetCurrentAmount(ref sourceAmount, resource.type))
+                if (source.TryGetCurrentAmount(resource.type, out sourceAmount))
                 {
                     int amountTotransfer = Mathf.Min(sourceAmount, destination.CapacityLeft, resource.amount);
                     source.TakeResource(resource.type, amountTotransfer);

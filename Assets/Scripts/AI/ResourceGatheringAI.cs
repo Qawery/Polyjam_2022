@@ -86,10 +86,10 @@ namespace Polyjam_2022
                     foreach (var unit in availableUnits)
                     {
                         float requestSatisfaction = 1.0f;
-                        float amountToTake = Mathf.Min(source.Resources.CurrentTotalAmount, unit.Resources.CapacityLeft);
+                        float amountToTake = Mathf.Min(source.Resources.CurrentTotalAmount - source.BlockedAmountPerType[request.ResourceType], unit.Resources.CapacityLeft);
                         if (amountToTake < request.Amount)
                         {
-                            requestSatisfaction = source.Resources.CurrentTotalAmount / request.Amount;
+                            requestSatisfaction = amountToTake / request.Amount;
                         }
                         var distance = (2 - requestSatisfaction) * Vector3.Distance(source.transform.position, unit.transform.position);
                         if (distance < bestDistance)

@@ -2,6 +2,7 @@ using UnityEngine.Assertions;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Polyjam_2022
 {
@@ -9,7 +10,7 @@ namespace Polyjam_2022
     {
         private readonly int maxCapacity;
         private int currentTotalAmount;
-        private Dictionary<ResourceType, int> currentAmountPerType = new Dictionary<ResourceType, int>();
+        private readonly Dictionary<ResourceType, int> currentAmountPerType = new Dictionary<ResourceType, int>();
 
         public ResourceManager Resources => this;
         public List<ResourceType> SupportedTypes => currentAmountPerType.Keys.ToList();
@@ -18,13 +19,15 @@ namespace Polyjam_2022
         public int CurrentTotalAmount
         {
             get => currentTotalAmount;
-            set
+            private set
             {
                 Assert.IsTrue(value >= 0.0f);
                 Assert.IsTrue(value <= maxCapacity);
                 currentTotalAmount = value;
             }
         }
+
+        public event System.Action<int> OnTotalAmountChanged;
 
         public ResourceManager(int maxCapacity, ResourceType supportedType) : this(maxCapacity, new ResourceType[] { supportedType })
         {
@@ -39,7 +42,11 @@ namespace Polyjam_2022
             {
                 currentAmountPerType[type] = 0;
             }
-            Assert.IsTrue(currentAmountPerType.Keys.Count > 0);
+
+            if (currentAmountPerType.Keys.Count == 0)
+            {
+                Debug.LogWarning("Created resource manager with no supported resource types.");
+            }
         }
 
         public ResourceManager(int maxCapacity, IEnumerable<(ResourceType type, int amount)> startingResources) : this(maxCapacity, 
@@ -85,7 +92,7 @@ namespace Polyjam_2022
             return true;
         }
 
-        public List<(ResourceType type, int amount)> GetAllCurrentAmountsPerType(bool includeEmpty = false)
+		public List<(ResourceType type, int amount)> GetAllCurrentAmountsPerType(bool includeEmpty = false)
         {
             var result = new List<(ResourceType type, int amount)>();
             foreach (var entry in currentAmountPerType)
@@ -98,13 +105,15 @@ namespace Polyjam_2022
             return result;
         }
 
-        public bool TryGetCurrentAmount(ref int currentAmount, ResourceType type)
+		public bool TryGetCurrentAmount(ResourceType type, out int currentAmount)
         {
             if (SupportsType(type))
             {
                 currentAmount = currentAmountPerType[type];
                 return true;
             }
+
+            currentAmount = 0;
             return false;
         }
 
@@ -130,6 +139,7 @@ namespace Polyjam_2022
             Assert.IsTrue(SupportsType(type));
             CurrentTotalAmount += amount;
             currentAmountPerType[type] += amount;
+            OnTotalAmountChanged?.Invoke(currentTotalAmount);
         }
 
         public void InsertResource(IEnumerable<(ResourceType type, int amount)> resources)
@@ -146,6 +156,7 @@ namespace Polyjam_2022
             Assert.IsTrue(currentAmountPerType[type] >= amount);
             CurrentTotalAmount -= amount;
             currentAmountPerType[type] -= amount;
+            OnTotalAmountChanged?.Invoke(currentTotalAmount);
         }
 
         public void TakeResource(IEnumerable<(ResourceType type, int amount)> resources)

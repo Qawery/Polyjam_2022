@@ -30,7 +30,7 @@ namespace Polyjam_2022
             int currentAmount = 0;
             foreach (var resource in this.resources)
             {
-                if (!resourceManager.TryGetCurrentAmount(ref currentAmount, resource.type) || 
+                if (!resourceManager.TryGetCurrentAmount(resource.type, out currentAmount) || 
                     currentAmount < resource.amount)
                 {
                     return false;

@@ -6,5 +6,6 @@ namespace Polyjam_2022
 		public string BuildingId;
 		public Building BuildingPrefab;
 		public BuildingPhantom BuildingPhantomPrefab;
+		public ConstructionSite ConstructionSitePrefab;
 	}
 }
