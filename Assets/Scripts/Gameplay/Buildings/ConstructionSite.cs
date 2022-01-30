@@ -16,10 +16,10 @@ namespace Polyjam_2022
             set
             {
                 Resources = new ResourceManager(int.MaxValue,
-                    value.ResourceRequirements.Select(requirement => requirement.ResourceType));
+                    value.ConstructionResourceRequirements.Select(requirement => requirement.ResourceType));
                 Resources.OnTotalAmountChanged += newValue =>
                 {
-                    foreach (ResourceRequirement requirement in buildingData.ResourceRequirements)
+                    foreach (ResourceRequirement requirement in buildingData.ConstructionResourceRequirements)
                     {
                         if (!Resources.TryGetCurrentAmount(requirement.ResourceType, out int amount))
                         {
@@ -32,7 +32,7 @@ namespace Polyjam_2022
                         }
                     }
 
-                    world.Instantiate(buildingPrefabCollection.GetBuildingPrefabData(buildingData.BuildingId).BuildingPrefab, transform.position, transform.rotation);
+                    world.Instantiate(buildingPrefabCollection.GetBuildingPrefabData(buildingData.BuildingId).BuildingPrefab, transform.position, transform.rotation).BuildingData = buildingData;
                     world.Destroy(gameObject);
                 };
                 buildingData = value;

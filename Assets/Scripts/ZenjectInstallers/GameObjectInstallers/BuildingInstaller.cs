@@ -6,7 +6,7 @@ namespace Polyjam_2022
 	{
 		public override void InstallBindings()
 		{
-			//TODO
+			Container.Bind<IUnitSpawner>().To<UnitSpawner>().FromComponentSibling();
 		}
 	}
 }

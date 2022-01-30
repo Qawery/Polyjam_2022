@@ -13,7 +13,15 @@ MonoBehaviour:
   m_Name: BuildingPrefabCollection
   m_EditorClassIdentifier: 
   buildingData:
-  - BuildingId: test_building
-    BuildingPrefab: {fileID: 5080189710595538344, guid: ee3daf289012ab44696b6a12f5af0a57, type: 3}
+  - BuildingId: forge
+    BuildingPrefab: {fileID: 2421626104148194143, guid: ee3daf289012ab44696b6a12f5af0a57, type: 3}
     BuildingPhantomPrefab: {fileID: 1180809943515481670, guid: 521f9d5549d2efe4e97d48690ce56953, type: 3}
     ConstructionSitePrefab: {fileID: -1430397280202749090, guid: 78494ba8a150ce746b82022b5c126bdf, type: 3}
+  - BuildingId: hut
+    BuildingPrefab: {fileID: -7281930532538383250, guid: 7ea1c1d325a4488499c5830585a28e18, type: 3}
+    BuildingPhantomPrefab: {fileID: 1180809943515481670, guid: fec7ac935c662b24faafbb90a72f2ae9, type: 3}
+    ConstructionSitePrefab: {fileID: -1430397280202749090, guid: 88e1aef596f195041aa32f814b933f18, type: 3}
+  - BuildingId: potato_field
+    BuildingPrefab: {fileID: 6984286447426712707, guid: 0df8100fabaac094c86920880d17e77f, type: 3}
+    BuildingPhantomPrefab: {fileID: 1180809943515481670, guid: 954dc6d97a4d463449403a16d0d805e1, type: 3}
+    ConstructionSitePrefab: {fileID: -1430397280202749090, guid: 4b70ebafff9916349875d00c6151fb48, type: 3}

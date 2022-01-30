@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 5080189710595538345}
   - component: {fileID: -1430397280202749090}
   m_Layer: 0
-  m_Name: TestBuildingConstructionSite
+  m_Name: ForgeConstructionSite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

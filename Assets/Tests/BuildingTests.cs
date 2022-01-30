@@ -276,7 +276,7 @@ namespace Polyjam_2022.Tests
             var targetPosition = Random.onUnitSphere * Random.Range(0, 0.5f * groundY);
             buildingPlacementHelper.SetBuildingData(new BuildingData()
             {
-                ResourceRequirements = new List<ResourceRequirement>()
+                ConstructionResourceRequirements = new List<ResourceRequirement>()
                 {
                     new ResourceRequirement() {ResourceType = ResourceType.Gold, RequiredAmount = 10},
                     new ResourceRequirement() {ResourceType = ResourceType.Potatoes, RequiredAmount = 10},

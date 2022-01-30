@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6290688446538989347}
   - component: {fileID: -6980562889690082388}
   m_Layer: 0
-  m_Name: TestBuildingPhantom
+  m_Name: ForgePhantom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
