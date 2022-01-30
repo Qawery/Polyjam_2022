@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 1357343706}
   - component: {fileID: 1357343709}
   - component: {fileID: 1357343708}
+  - component: {fileID: 1357343710}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -374,6 +375,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingButtonPrefab: {fileID: 3184935675959055123, guid: 888df8bf578921d4b92cc8f7b4157a8d, type: 3}
   buttonParentTransform: {fileID: 1357343705}
+--- !u!114 &1357343710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357343704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22780d068ded41cba9ad2cdd4ae670cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enabledDuringDayPhase: 1
 --- !u!1 &1430857559
 GameObject:
   m_ObjectHideFlags: 0
