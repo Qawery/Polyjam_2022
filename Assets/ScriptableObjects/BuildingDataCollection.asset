@@ -28,8 +28,10 @@ MonoBehaviour:
       - ProductionType: 1
         ProducedResource: 5
         ProducedAmount: 1
-        ProductionCooldown: 2
+      ProductionCooldown: 5
     ResourceCapacity: 50
+    MaxHP: 100
+    SingleHitPointRegenerationTime: 0.25
   - BuildingId: hut
     BuildingName: Hut
     ConstructionResourceRequirements:
@@ -45,8 +47,10 @@ MonoBehaviour:
       - ProductionType: 0
         ProducedResource: 0
         ProducedAmount: 1
-        ProductionCooldown: 10
+      ProductionCooldown: 30
     ResourceCapacity: 50
+    MaxHP: 100
+    SingleHitPointRegenerationTime: 0.25
   - BuildingId: potato_field
     BuildingName: Potato Field
     ConstructionResourceRequirements:
@@ -56,7 +60,9 @@ MonoBehaviour:
     - ConsumptionData: []
       ProductionData:
       - ProductionType: 1
-        ProducedResource: 0
-        ProducedAmount: 1
-        ProductionCooldown: 3
+        ProducedResource: 4
+        ProducedAmount: 10
+      ProductionCooldown: 20
     ResourceCapacity: 50
+    MaxHP: 100
+    SingleHitPointRegenerationTime: 0.25

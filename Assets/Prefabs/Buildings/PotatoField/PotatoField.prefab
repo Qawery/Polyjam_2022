@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 5080189710595538351}
   - component: {fileID: 8376035865362275391}
   - component: {fileID: -8286658348840445707}
+  - component: {fileID: 3288649307867741659}
   m_Layer: 7
   m_Name: PotatoField
   m_TagString: Untagged
@@ -184,3 +185,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9213aefc1ee84b1ab61419560f7d4020, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3288649307867741659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5080189710595538350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b29a19ff04a4266874da060bfc3d114, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitPrefab: {fileID: 0}
