@@ -17,12 +17,22 @@ namespace Polyjam_2022
         
         public event Action<BuildingData> OnBuildingSelectionChanged;
 
-        public BuildingPlacer(IWorld world, ILayerManager layerManager, IBuildingPrefabCollection buildingPrefabCollection)
+        public BuildingPlacer(IWorld world, ILayerManager layerManager, IBuildingPrefabCollection buildingPrefabCollection, IDayNightCycle dayNightCycle = null)
         {
             this.groundLayerMask = layerManager.GroundLayerMask;
             this.world = world;
             this.buildingPrefabCollection = buildingPrefabCollection;
-            Debug.Log("constructed placer");
+
+            if (dayNightCycle != null)
+            {
+                dayNightCycle.OnCycleChanged += cycle =>
+                {
+                    if (cycle.IsNight)
+                    {
+                        Release();
+                    }
+                };
+            }
         }
 
         public void SetBuildingData(BuildingData buildingData)
