@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace Polyjam_2022
 {
@@ -10,9 +12,14 @@ namespace Polyjam_2022
 
         public ResourceManager Resources { get; private set; }
 
+        public Dictionary<ResourceType, int> BlockedAmountPerType { get; set; } = new Dictionary<ResourceType, int>();
         private void Awake()
         {
             Resources = new ResourceManager(maxCapacity, startingAmmount);
+            foreach (var resourceType in Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>())
+            {
+                BlockedAmountPerType.Add(resourceType, 0);
+            }
         }
     }
 }
