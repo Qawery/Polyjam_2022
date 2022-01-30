@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Polyjam_2022
 {
-    public class ResourceSource : MonoBehaviour, IResourceHolder
+    public class ResourceSource : MonoBehaviour, IResourceLocation
     {
         [SerializeField, Range(0, 1000)] private int maxCapacity = 10;
         [SerializeField] private List<ResourceRequirement> startingAmount;
@@ -21,5 +21,7 @@ namespace Polyjam_2022
                 BlockedAmountPerType.Add(resourceType, 0);
             }
         }
+
+        public Vector3 Position => transform.position;
     }
 }

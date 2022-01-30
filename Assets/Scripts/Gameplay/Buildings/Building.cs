@@ -7,7 +7,7 @@ using Zenject;
 
 namespace Polyjam_2022
 {
-	public class Building : PlacedObject, IResourceHolder, IDestructible
+	public class Building : PlacedObject, IResourceLocation, IDestructible
 	{
 		[Inject] private IUnitSpawner unitSpawner = null;
 		[Inject] private IWorld world = null;
@@ -42,6 +42,7 @@ namespace Polyjam_2022
 
 		public ResourceManager Resources { get; private set; }
 		public HealthPoints HealthPoints { get; private set; }
+		public Vector3 Position => transform.position;
 		
 		private void Update()
 		{
@@ -103,6 +104,5 @@ namespace Polyjam_2022
 				}
 			}
 		}
-
 	}
 }
