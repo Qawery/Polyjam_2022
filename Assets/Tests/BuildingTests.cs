@@ -349,6 +349,7 @@ namespace Polyjam_2022.Tests
             var unitSpawner = new MockUnitSpawner();
             var container = new DiContainer();
             container.Bind<IUnitSpawner>().FromInstance(unitSpawner);
+            container.Bind<IBoundsProvider>().FromInstance(new MockBoundsProvider(new GameObject("test"), 1));
 
             var building = (new GameObject("Building")).AddComponent<Building>();
             container.InjectGameObject(building.gameObject);
