@@ -39,10 +39,7 @@ namespace Polyjam_2022
 
             var newPosition = transform.position + movementDirection;
 
-            newPosition.y = Mathf.Clamp(newPosition.y, 2.0f, 10.0f);
-            newPosition.x = Mathf.Clamp(newPosition.x, -10.0f, 10.0f);
-            newPosition.z = Mathf.Clamp(newPosition.z, -10.0f, 10.0f);
-
+            newPosition.y = Mathf.Clamp(newPosition.y, 2.0f, 150.0f);
             transform.position = newPosition;
         }
     }
