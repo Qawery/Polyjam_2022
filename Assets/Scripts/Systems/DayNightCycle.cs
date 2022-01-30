@@ -1,5 +1,4 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace Polyjam_2022
@@ -9,7 +8,6 @@ namespace Polyjam_2022
         [SerializeField, Range(0.0f, 1.0f)] private float startingTimeProgress = 0;
         [SerializeField, Range(0.01f, 0.99f)] private float transitionThreshold = 0.5f;
         [SerializeField, Range(1.0f, 5000.0f)] private float cycleSeconds = 5.0f;
-        [SerializeField] private TextMeshProUGUI text;
 
         private float TimeProgress { get; set; } = 0;
         
@@ -21,7 +19,6 @@ namespace Polyjam_2022
         private void Awake()
         {
             TimeProgress = startingTimeProgress;
-            Assert.IsNotNull(text, "No text bound to DayNightCycle");
         }
 
         private void Update()
@@ -48,18 +45,6 @@ namespace Polyjam_2022
             if(IsDay != previousDay)
             {
                 OnCycleChanged?.Invoke(this);
-
-                //TODO: remove this
-                if (IsDay)
-                {
-                    text.text = "Day";
-                    FindObjectOfType<Light>().color = Color.white;
-                }
-                else
-                {
-                    text.text = "Night";
-                    FindObjectOfType<Light>().color = Color.black;
-                }
             }
         }
     }

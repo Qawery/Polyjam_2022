@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Polyjam_2022
 {
-	public class Building : MonoBehaviour, IResourceHolder
+	public class Building : PlacedObject, IResourceHolder
 	{
 		[Inject] private IUnitSpawner unitSpawner = null;
 		private BuildingData buildingData;
@@ -45,10 +45,10 @@ namespace Polyjam_2022
 						Produce(recipe);
 						recipeTimers[i] = (recipe, recipe.ProductionCooldown);
 					}
-					else
-					{
-						recipeTimers[i] = (recipe, timer);
-					}
+				}
+				else
+				{
+					recipeTimers[i] = (recipe, timer);
 				}
 			}
 		}

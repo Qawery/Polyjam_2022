@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5080189710439901962}
   - component: {fileID: 5080189710439901961}
   - component: {fileID: 5080189710439901960}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5080189710439901966}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.84277344, y: 0.85375977, z: -1.4328613}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.6422, y: 0.116701975, z: 2.018}
   m_Children: []
   m_Father: {fileID: 5080189710595538345}
@@ -107,7 +107,8 @@ GameObject:
   - component: {fileID: 6145519312243490162}
   - component: {fileID: 5080189710595538351}
   - component: {fileID: 8376035865362275391}
-  m_Layer: 0
+  - component: {fileID: -8286658348840445707}
+  m_Layer: 7
   m_Name: PotatoField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,5 +170,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1d0bf507c2e4554a1f27defd7de0c6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8286658348840445707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5080189710595538350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9213aefc1ee84b1ab61419560f7d4020, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

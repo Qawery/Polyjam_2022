@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Polyjam_2022
 {
-    public class ConstructionSite : MonoBehaviour, IResourceHolder
+    public class ConstructionSite : PlacedObject, IResourceHolder
     {
         [Inject] private IWorld world = null;
         [Inject] private IBuildingPrefabCollection buildingPrefabCollection;
@@ -32,12 +32,16 @@ namespace Polyjam_2022
                         }
                     }
 
-                    world.Instantiate(buildingPrefabCollection.GetBuildingPrefabData(buildingData.BuildingId).BuildingPrefab, transform.position, transform.rotation).BuildingData = buildingData;
+                    var building = world.Instantiate(buildingPrefabCollection.GetBuildingPrefabData(buildingData.BuildingId).BuildingPrefab, PlacementPosition, transform.rotation);
+                    building.BuildingData = buildingData;
+                    building.PlaceBaseAtPosition(PlacementPosition);
                     world.Destroy(gameObject);
                 };
                 buildingData = value;
             }
         }
+        
+        public Vector3 PlacementPosition { private get; set; }
 
         public ResourceManager Resources { get; private set; } 
     }

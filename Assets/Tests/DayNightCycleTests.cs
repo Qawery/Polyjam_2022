@@ -16,7 +16,7 @@ namespace Polyjam_2022.Tests
         [Test]
         public void CycleTest()
         {
-            DayNightCycle cycle = new DayNightCycle();
+            DayNightCycle cycle = (new GameObject("test")).AddComponent<DayNightCycle>();
             cycle.OnCycleChanged += Cycle_OnCycleChanged;
 
             var time = cycle.GetHourMinute();

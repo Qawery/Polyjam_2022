@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6868930669454923374}
   - component: {fileID: 1008467802477091064}
   - component: {fileID: 5460159410972625918}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 677462738002149263}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.84277344, y: 0.85375977, z: -1.4328613}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.6422, y: 0.11669999, z: 2.018}
   m_Children: []
   m_Father: {fileID: 1180809943515481689}
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: -1836619699201657888}
   - component: {fileID: 6290688446538989347}
   - component: {fileID: -6980562889690082388}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PotatoFieldPhantom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
