@@ -62,5 +62,7 @@ namespace Polyjam_2022
         public List<ResourceRequirement> ConstructionResourceRequirements = new List<ResourceRequirement>();
         public List<Recipe> Recipes = new List<Recipe>();
         public int ResourceCapacity = 50;
+        public int MaxHP = 100;
+        public float SingleHitPointRegenerationTime = 0.25f;
     }
 }

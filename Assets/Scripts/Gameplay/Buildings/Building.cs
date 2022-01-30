@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Lifecycle;
 using UnityEngine;
 using Zenject;
 
 namespace Polyjam_2022
 {
-	public class Building : PlacedObject, IResourceHolder
+	public class Building : PlacedObject, IResourceHolder, IDestructible
 	{
 		[Inject] private IUnitSpawner unitSpawner = null;
+		[Inject] private IWorld world = null;
+		[Inject] private IDayNightCycle dayNightCycle = null;
+		
 		private BuildingData buildingData;
+		private float regenerationTimer = 0;
 		private readonly List<(Recipe recipe, float timer)> recipeTimers = new List<(Recipe recipe, float timer)>();
 
 		public BuildingData BuildingData
@@ -25,14 +30,33 @@ namespace Polyjam_2022
 				{
 					recipeTimers.Add((recipe, recipe.ProductionCooldown));
 				}
+
+				HealthPoints = new HealthPoints(buildingData.MaxHP);
+				HealthPoints.OnDeath += () =>
+				{
+					world.Destroy(gameObject);
+				};
 			}
 			get => buildingData;
 		}
 
 		public ResourceManager Resources { get; private set; }
-
+		public HealthPoints HealthPoints { get; private set; }
+		
 		private void Update()
 		{
+			if (dayNightCycle.IsNight)
+			{
+				return;
+			}
+
+			regenerationTimer += Time.deltaTime;
+			if (regenerationTimer > buildingData.SingleHitPointRegenerationTime)
+			{
+				HealthPoints.ReceiveDamage(-1);
+				regenerationTimer = 0.0f;
+			}
+			
 			for(int i = 0; i < recipeTimers.Count; ++i)
 			{
 				var (recipe, timer) = recipeTimers[i];
@@ -79,5 +103,6 @@ namespace Polyjam_2022
 				}
 			}
 		}
+
 	}
 }
