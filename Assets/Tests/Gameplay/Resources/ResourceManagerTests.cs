@@ -16,9 +16,8 @@ namespace Polyjam_2022.Tests
             Assert.IsTrue(resources.CapacityLeft == 10);
             Assert.IsTrue(resources.CurrentTotalAmount == 0);            
             int amount = -1;
-            Assert.IsFalse(resources.TryGetCurrentAmount(ref amount, ResourceType.Stone));
-            Assert.IsTrue(amount == -1);
-            Assert.IsTrue(resources.TryGetCurrentAmount(ref amount, ResourceType.Gold));
+            Assert.IsFalse(resources.TryGetCurrentAmount(ResourceType.Stone, out amount));
+            Assert.IsTrue(resources.TryGetCurrentAmount(ResourceType.Gold, out amount));
             Assert.IsTrue(amount == 0);
             Assert.IsTrue(resources.HasResource(ResourceType.Gold, 0));
             Assert.IsFalse(resources.HasResource(ResourceType.Gold, 5));
@@ -28,7 +27,7 @@ namespace Polyjam_2022.Tests
             Assert.IsTrue(resources.CapacityLeft == 5);
             Assert.IsTrue(resources.CurrentTotalAmount == 5);
             amount = -1;
-            Assert.IsTrue(resources.TryGetCurrentAmount(ref amount, ResourceType.Gold));
+            Assert.IsTrue(resources.TryGetCurrentAmount(ResourceType.Gold, out amount));
             Assert.IsTrue(amount == 5);
             Assert.IsTrue(resources.HasResource(ResourceType.Gold, 0));
             Assert.IsTrue(resources.HasResource(ResourceType.Gold, 5));
@@ -37,7 +36,7 @@ namespace Polyjam_2022.Tests
             Assert.IsTrue(resources.CapacityLeft == 10);
             Assert.IsTrue(resources.CurrentTotalAmount == 0);
             amount = -1;
-            Assert.IsTrue(resources.TryGetCurrentAmount(ref amount, ResourceType.Gold));
+            Assert.IsTrue(resources.TryGetCurrentAmount(ResourceType.Gold, out amount));
             Assert.IsTrue(amount == 0);
             Assert.IsTrue(resources.HasResource(ResourceType.Gold, 0));
             Assert.IsFalse(resources.HasResource(ResourceType.Gold, 5));
@@ -54,10 +53,10 @@ namespace Polyjam_2022.Tests
             Assert.IsTrue(resources.CapacityLeft == 8);
             Assert.IsTrue(resources.CurrentTotalAmount == 0);
             int amount = -1;
-            Assert.IsTrue(resources.TryGetCurrentAmount(ref amount, ResourceType.Gold));
+            Assert.IsTrue(resources.TryGetCurrentAmount(ResourceType.Gold, out amount));
             Assert.IsTrue(amount == 0);
             amount = -1;
-            Assert.IsTrue(resources.TryGetCurrentAmount(ref amount, ResourceType.Stone));
+            Assert.IsTrue(resources.TryGetCurrentAmount(ResourceType.Stone, out amount));
             Assert.IsTrue(amount == 0);
         }
 
@@ -72,11 +71,11 @@ namespace Polyjam_2022.Tests
             Assert.IsTrue(resources.CapacityLeft == 4);
             Assert.IsTrue(resources.CurrentTotalAmount == 6);
             int amount = -1;
-            Assert.IsTrue(resources.TryGetCurrentAmount(ref amount, ResourceType.Gold));
+            Assert.IsTrue(resources.TryGetCurrentAmount(ResourceType.Gold, out amount));
             Assert.IsTrue(amount == 5);
             Assert.IsTrue(resources.HasResource(ResourceType.Gold, 5));
             amount = -1;
-            Assert.IsTrue(resources.TryGetCurrentAmount(ref amount, ResourceType.Potatoes));
+            Assert.IsTrue(resources.TryGetCurrentAmount(ResourceType.Potatoes, out amount));
             Assert.IsTrue(amount == 1);
             Assert.IsTrue(resources.HasResource(ResourceType.Potatoes, 1));
             Assert.IsTrue(resources.HasResource(new List<(ResourceType type, int amount)>{ (ResourceType.Gold, 5), (ResourceType.Potatoes, 1) }));
@@ -86,11 +85,11 @@ namespace Polyjam_2022.Tests
             Assert.IsTrue(resources.CapacityLeft == 3);
             Assert.IsTrue(resources.CurrentTotalAmount == 7);
             amount = -1;
-            Assert.IsTrue(resources.TryGetCurrentAmount(ref amount, ResourceType.Gold));
+            Assert.IsTrue(resources.TryGetCurrentAmount(ResourceType.Gold, out amount));
             Assert.IsTrue(amount == 6);
             Assert.IsTrue(resources.HasResource(ResourceType.Gold, 6));
             amount = -1;
-            Assert.IsTrue(resources.TryGetCurrentAmount(ref amount, ResourceType.Potatoes));
+            Assert.IsTrue(resources.TryGetCurrentAmount(ResourceType.Potatoes, out amount));
             Assert.IsTrue(amount == 1);
             Assert.IsTrue(resources.HasResource(ResourceType.Potatoes, 1));
             Assert.IsTrue(resources.HasResource(new List<(ResourceType type, int amount)> { (ResourceType.Gold, 6), (ResourceType.Potatoes, 1) }));
@@ -99,11 +98,11 @@ namespace Polyjam_2022.Tests
             Assert.IsTrue(resources.CapacityLeft == 8);
             Assert.IsTrue(resources.CurrentTotalAmount == 2);
             amount = -1;
-            Assert.IsTrue(resources.TryGetCurrentAmount(ref amount, ResourceType.Gold));
+            Assert.IsTrue(resources.TryGetCurrentAmount(ResourceType.Gold, out amount));
             Assert.IsTrue(amount == 1);
             Assert.IsTrue(resources.HasResource(ResourceType.Gold, 1));
             amount = -1;
-            Assert.IsTrue(resources.TryGetCurrentAmount(ref amount, ResourceType.Potatoes));
+            Assert.IsTrue(resources.TryGetCurrentAmount(ResourceType.Potatoes, out amount));
             Assert.IsTrue(amount == 1);
             Assert.IsTrue(resources.HasResource(ResourceType.Potatoes, 1));
             Assert.IsTrue(resources.HasResource(new List<(ResourceType type, int amount)> { (ResourceType.Gold, 1), (ResourceType.Potatoes, 1) }));
@@ -112,11 +111,11 @@ namespace Polyjam_2022.Tests
             Assert.IsTrue(resources.CapacityLeft == 6);
             Assert.IsTrue(resources.CurrentTotalAmount == 4);
             amount = -1;
-            Assert.IsTrue(resources.TryGetCurrentAmount(ref amount, ResourceType.Gold));
+            Assert.IsTrue(resources.TryGetCurrentAmount(ResourceType.Gold, out amount));
             Assert.IsTrue(amount == 2);
             Assert.IsTrue(resources.HasResource(ResourceType.Gold, 2));
             amount = -1;
-            Assert.IsTrue(resources.TryGetCurrentAmount(ref amount, ResourceType.Potatoes));
+            Assert.IsTrue(resources.TryGetCurrentAmount(ResourceType.Potatoes, out amount));
             Assert.IsTrue(amount == 2);
             Assert.IsTrue(resources.HasResource(ResourceType.Potatoes, 2));
             Assert.IsTrue(resources.HasResource(new List<(ResourceType type, int amount)> { (ResourceType.Gold, 2), (ResourceType.Potatoes, 2) }));
@@ -125,11 +124,11 @@ namespace Polyjam_2022.Tests
             Assert.IsTrue(resources.CapacityLeft == 8);
             Assert.IsTrue(resources.CurrentTotalAmount == 2);
             amount = -1;
-            Assert.IsTrue(resources.TryGetCurrentAmount(ref amount, ResourceType.Gold));
+            Assert.IsTrue(resources.TryGetCurrentAmount(ResourceType.Gold, out amount));
             Assert.IsTrue(amount == 1);
             Assert.IsTrue(resources.HasResource(ResourceType.Gold, 1));
             amount = -1;
-            Assert.IsTrue(resources.TryGetCurrentAmount(ref amount, ResourceType.Potatoes));
+            Assert.IsTrue(resources.TryGetCurrentAmount(ResourceType.Potatoes, out amount));
             Assert.IsTrue(amount == 1);
             Assert.IsTrue(resources.HasResource(ResourceType.Potatoes, 1));
             Assert.IsTrue(resources.HasResource(new List<(ResourceType type, int amount)> { (ResourceType.Gold, 1), (ResourceType.Potatoes, 1) }));

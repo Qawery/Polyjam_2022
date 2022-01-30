@@ -21,7 +21,7 @@ namespace Polyjam_2022
         public override bool IsSatisified()
         {
             int currentAmount = 0;
-            return resources != null && resources.TryGetCurrentAmount(ref currentAmount, type) && currentAmount >= requiredAmount;
+            return resources != null && resources.TryGetCurrentAmount(type, out currentAmount) && currentAmount >= requiredAmount;
         }
     }
 }

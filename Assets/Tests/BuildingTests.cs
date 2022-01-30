@@ -105,25 +105,28 @@ namespace Polyjam_2022.Tests
 
         class MockPrefabCollection : IBuildingPrefabCollection
         {
-            private BuildingPhantom buildingPhantom;
-            private Building building;
+            private readonly Building buildingPrefab;
+            private readonly BuildingPhantom buildingPhantom;
+            private readonly ConstructionSite constructionSite;
 
-            public MockPrefabCollection(BuildingPhantom buildingPhantom, Building building)
+            public MockPrefabCollection(BuildingPhantom buildingPhantom, Building buildingPrefab, ConstructionSite site)
             {
                 this.buildingPhantom = buildingPhantom;
-                this.building = building;
+                this.constructionSite = site;
+                this.buildingPrefab = buildingPrefab;
             }
 
             public BuildingPrefabData GetBuildingPrefabData(string buildingId)
             {
                 return new BuildingPrefabData()
                 {
-                    BuildingPrefab = building,
+                    BuildingPrefab = buildingPrefab,
+                    ConstructionSitePrefab = constructionSite,
                     BuildingPhantomPrefab = buildingPhantom
                 };
             }
         }
-
+        
         [Test]
         public void BuildingPhantomTriggerTest()
         {
@@ -191,7 +194,7 @@ namespace Polyjam_2022.Tests
             var buildingPhantomPrefab = buildingPhantomGO.AddComponent<BuildingPhantom>();
             container.InjectGameObject(buildingPhantomGO);
             
-            var buildingPlacementHelper = new BuildingPlacer(new MockWorld(), new MockLayerManager(), new MockPrefabCollection(buildingPhantomPrefab, null));
+            var buildingPlacementHelper = new BuildingPlacer(new MockWorld(), new MockLayerManager(), new MockPrefabCollection(buildingPhantomPrefab, null, null));
             var targetPosition = Random.onUnitSphere * Random.Range(0, 0.5f * groundY);
             buildingPlacementHelper.SetBuildingData(new BuildingData());
 
@@ -219,11 +222,13 @@ namespace Polyjam_2022.Tests
 
             var buildingPhantomPrefab = buildingPhantomGO.AddComponent<BuildingPhantom>();
             var buildingPrefabGO = new GameObject("Building");
-            var buildingPrefab = buildingPrefabGO.AddComponent<Building>();
+            var constructionSite = buildingPrefabGO.AddComponent<ConstructionSite>();
+            var buildingPrefabCollection = new MockPrefabCollection(buildingPhantomPrefab, null, constructionSite);
+            container.Bind<IBuildingPrefabCollection>().FromInstance(buildingPrefabCollection);
             container.InjectGameObject(buildingPhantomGO);
             container.InjectGameObject(buildingPrefabGO);
 
-            var buildingPlacementHelper = new BuildingPlacer(mockWorld, new MockLayerManager(), new MockPrefabCollection(buildingPhantomPrefab, buildingPrefab));
+            var buildingPlacementHelper = new BuildingPlacer(mockWorld, new MockLayerManager(), buildingPrefabCollection);
             var targetPosition = Random.onUnitSphere * Random.Range(0, 0.5f * groundY);
             buildingPlacementHelper.SetBuildingData(new BuildingData());
 
@@ -237,6 +242,68 @@ namespace Polyjam_2022.Tests
 
             mockTriggerEventBroadcaster.TriggerExit();
             Assert.IsTrue(buildingPlacementHelper.TryPlaceBuildingAtCurrentPosition());
+            Assert.IsTrue(spawnCallbackCalled);
+        }
+
+        [Test]
+        public void ConstructionTest()
+        {
+            const int groundY = -40;
+            const int boundsHeight = 15;
+
+            GameObject buildingPhantomGO = new GameObject("Building phantom");
+            var mockTriggerEventBroadcaster = new MockTriggerEventBroadcaster();
+            var mockBoundsProvider = new MockBoundsProvider(buildingPhantomGO, boundsHeight);
+            var mockWorld = new MockWorld();
+
+            var container = new DiContainer();
+            container.Bind<ITriggerEventBroadcaster>().FromInstance(mockTriggerEventBroadcaster);
+            container.Bind<IBoundsProvider>().FromInstance(mockBoundsProvider);
+            container.Bind<IWorld>().FromInstance(mockWorld);
+
+            var buildingPhantomPrefab = buildingPhantomGO.AddComponent<BuildingPhantom>();
+            var constructionSitePrefab = new GameObject("ConstructionSite");
+            var constructionSite = constructionSitePrefab.AddComponent<ConstructionSite>();
+            var buildingGO = new GameObject("Building");
+            var buildingPrefab = buildingGO.AddComponent<Building>();
+            var buildingPrefabCollection = new MockPrefabCollection(buildingPhantomPrefab, buildingPrefab, constructionSite);
+            container.Bind<IBuildingPrefabCollection>().FromInstance(buildingPrefabCollection);
+            container.InjectGameObject(buildingPhantomGO);
+            container.InjectGameObject(constructionSitePrefab);
+            container.InjectGameObject(buildingGO);
+
+            var buildingPlacementHelper = new BuildingPlacer(mockWorld, new MockLayerManager(), buildingPrefabCollection);
+            var targetPosition = Random.onUnitSphere * Random.Range(0, 0.5f * groundY);
+            buildingPlacementHelper.SetBuildingData(new BuildingData()
+            {
+                ResourceRequirements = new List<ResourceRequirement>()
+                {
+                    new ResourceRequirement() {ResourceType = ResourceType.Gold, RequiredAmount = 10},
+                    new ResourceRequirement() {ResourceType = ResourceType.Potatoes, RequiredAmount = 10},
+                    new ResourceRequirement() {ResourceType = ResourceType.Stone, RequiredAmount = 10}
+                }
+            });
+            
+            buildingPlacementHelper.MovePhantomToPosition(targetPosition);
+            buildingPlacementHelper.TryPlaceBuildingAtCurrentPosition();
+            
+            bool spawnCallbackCalled = false;
+            mockWorld.OnObjectSpawned += () => { spawnCallbackCalled = true; };
+
+            constructionSite.Resources.InsertResource(ResourceType.Gold, 10);
+            Assert.IsNotNull(constructionSite);
+            Assert.IsFalse(spawnCallbackCalled);
+            
+            constructionSite.Resources.InsertResource(ResourceType.Stone, 5);
+            Assert.IsNotNull(constructionSite);
+            Assert.IsFalse(spawnCallbackCalled);
+            
+            constructionSite.Resources.InsertResource(ResourceType.Potatoes, 5);
+            Assert.IsNotNull(constructionSite);
+            Assert.IsFalse(spawnCallbackCalled);
+            
+            constructionSite.Resources.InsertResource(ResourceType.Stone, 5);
+            constructionSite.Resources.InsertResource(ResourceType.Potatoes, 5);
             Assert.IsTrue(spawnCallbackCalled);
         }
     }

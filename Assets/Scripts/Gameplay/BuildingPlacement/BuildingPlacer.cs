@@ -8,6 +8,7 @@ namespace Polyjam_2022
     {
         private BuildingPhantom buildingPhantom;
         private BuildingPrefabData buildingPrefabData;
+        private BuildingData buildingData;
         private readonly LayerMask groundLayerMask;
         private readonly IWorld world;
         private readonly IBuildingPrefabCollection buildingPrefabCollection;
@@ -36,7 +37,8 @@ namespace Polyjam_2022
                 this.buildingPrefabData = buildingPrefabCollection.GetBuildingPrefabData(buildingData.BuildingId);
                 buildingPhantom = world.Instantiate(buildingPrefabData.BuildingPhantomPrefab);
             }
-            
+
+            this.buildingData = buildingData;
             OnBuildingSelectionChanged?.Invoke(buildingData);
         }
         
@@ -66,8 +68,8 @@ namespace Polyjam_2022
                 return false;
             }
 
-            world.Instantiate(buildingPrefabData.BuildingPrefab, buildingPhantom.transform.position, 
-                buildingPhantom.transform.rotation);
+            world.Instantiate(buildingPrefabData.ConstructionSitePrefab, buildingPhantom.transform.position, 
+                buildingPhantom.transform.rotation).BuildingData = buildingData;
             return true;
         }
 
