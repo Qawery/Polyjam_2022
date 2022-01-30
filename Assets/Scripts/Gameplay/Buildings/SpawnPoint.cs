@@ -5,8 +5,14 @@ namespace Polyjam_2022
 {
     public class SpawnPoint : MonoBehaviour
     {
-        [Inject] private TriggerOverlapDetector triggerOverlapDetector = null;
+        private TriggerOverlapDetector triggerOverlapDetector = null;
 
-        public bool IsTaken => triggerOverlapDetector.OverlappingColliderCount == 0;
+        public bool IsTaken => triggerOverlapDetector.OverlappingColliderCount > 0;
+
+        [Inject]
+        private void Init(ITriggerEventBroadcaster broadcaster)
+        {
+            triggerOverlapDetector = new TriggerOverlapDetector(broadcaster);
+        }
     }
 }

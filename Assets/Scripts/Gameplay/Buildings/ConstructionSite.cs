@@ -31,11 +31,8 @@ namespace Polyjam_2022
                             return;
                         }
                     }
-
-                    var building = world.Instantiate(buildingPrefabCollection.GetBuildingPrefabData(buildingData.BuildingId).BuildingPrefab, PlacementPosition, transform.rotation);
-                    building.BuildingData = buildingData;
-                    building.PlaceBaseAtPosition(PlacementPosition);
-                    world.Destroy(gameObject);
+                    
+                    CompleteConstruction();
                 };
                 buildingData = value;
             }
@@ -43,6 +40,14 @@ namespace Polyjam_2022
         
         public Vector3 PlacementPosition { private get; set; }
 
-        public ResourceManager Resources { get; private set; } 
+        public ResourceManager Resources { get; private set; }
+
+        public void CompleteConstruction()
+        {
+            var building = world.Instantiate(buildingPrefabCollection.GetBuildingPrefabData(buildingData.BuildingId).BuildingPrefab, PlacementPosition, transform.rotation);
+            building.BuildingData = buildingData;
+            building.transform.position = PlacementPosition;
+            world.Destroy(gameObject);
+        }
     }
 }

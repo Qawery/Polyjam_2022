@@ -64,7 +64,7 @@ namespace Polyjam_2022
                 buildingPhantom.transform.rotation);
             constructionSite.PlaceBaseAtPosition(placementPosition);
             constructionSite.BuildingData = buildingData;
-            constructionSite.PlacementPosition = placementPosition;
+            constructionSite.PlacementPosition = buildingPhantom.transform.position;
             return true;
         }
 
