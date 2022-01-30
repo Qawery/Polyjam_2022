@@ -92,7 +92,20 @@ namespace Polyjam_2022
             return true;
         }
 
-        public bool TryGetCurrentAmount(ResourceType type, out int currentAmount)
+		public List<(ResourceType type, int amount)> GetAllCurrentAmountsPerType(bool includeEmpty = false)
+        {
+            var result = new List<(ResourceType type, int amount)>();
+            foreach (var entry in currentAmountPerType)
+            {
+                if (entry.Value > 0 || includeEmpty)
+                {
+                    result.Add((entry.Key, entry.Value));
+                }
+            }
+            return result;
+        }
+
+		public bool TryGetCurrentAmount(ResourceType type, out int currentAmount)
         {
             if (SupportsType(type))
             {
