@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace Polyjam_2022
 {
-    public class TransferResources : Effect
+    public class TransferAmountOfResources : Effect
     {
         private readonly ResourceManager source;
         private readonly ResourceManager destination;
         private readonly List<(ResourceType type, int amount)> resources = new List<(ResourceType type, int amount)>();
 
-        public TransferResources(IResourceHolder source, IResourceHolder destination, IEnumerable<(ResourceType type, int amount)> resources)
+        public TransferAmountOfResources(IResourceHolder source, IResourceHolder destination, IEnumerable<(ResourceType type, int amount)> resources)
         {
             Assert.IsFalse(source == destination);
             Assert.IsNotNull(source);

@@ -10,11 +10,14 @@ namespace Polyjam_2022.Tests
         {
             var sourcePosition = new MockPositionProvider();
             var targetPosition = new MockPositionProvider();
-            var distancePrecondition = new DistancePrecondition(sourcePosition, targetPosition, 1.0f);
+            var furtherThanCondition = new FurtherThan(sourcePosition, targetPosition, 1.0f);
+            var closerThanCondition = new CloserThan(sourcePosition, targetPosition, 1.0f);
 
-            Assert.IsTrue(distancePrecondition.IsSatisified());
+            Assert.IsFalse(furtherThanCondition.IsSatisified());
+            Assert.IsTrue(closerThanCondition.IsSatisified());
             targetPosition.Position = new Vector3(0.0f, 0.0f, 5.0f);
-            Assert.IsFalse(distancePrecondition.IsSatisified());
+            Assert.IsTrue(furtherThanCondition.IsSatisified());
+            Assert.IsFalse(closerThanCondition.IsSatisified());
         }
     }
 

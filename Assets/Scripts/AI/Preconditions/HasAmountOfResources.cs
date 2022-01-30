@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Polyjam_2022
 {
-    public class HasAmountOfResources : Precondition
+    public class HasAmountOfResources : Condition
     {
         public readonly ResourceManager resourceManager;
         public readonly List<(ResourceType type, int amount)> resources = new List<(ResourceType type, int requiredAmount)>();

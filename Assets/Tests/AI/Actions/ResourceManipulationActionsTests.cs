@@ -16,7 +16,7 @@ namespace Polyjam_2022.Tests
             var holderPosition = new MockPositionProvider();
             var resourceRequest = new List<(ResourceType type, int amount)> { (ResourceType.Gold, 5), (ResourceType.Stone, 4) };
 
-            var action = ActionTemplates.GetResourcesFromSource(mockResourceManipulator, resourceHolder, holderPosition, resourceRequest);
+            var action = ResourceTransferActions.GetResourcesAmountFromSource(mockResourceManipulator, resourceHolder, holderPosition, resourceRequest);
             Assert.IsFalse(action.IsValid());
             Assert.IsFalse(action.TryExecute(0.0f));
             int amount = -1;
@@ -43,7 +43,7 @@ namespace Polyjam_2022.Tests
             Assert.IsTrue(resourceHolder.Resources.TryGetCurrentAmount(ResourceType.Stone, out amount));
             Assert.IsTrue(amount == 4);
 
-            action = ActionTemplates.GiveResourcesToDestination(mockResourceManipulator, resourceHolder, holderPosition, resourceRequest);
+            action = ResourceTransferActions.GiveResourcesAmountToDestination(mockResourceManipulator, resourceHolder, holderPosition, resourceRequest);
             Assert.IsTrue(action.IsValid());
             Assert.IsTrue(action.TryExecute(0.0f));
             amount = -1;
@@ -68,7 +68,7 @@ namespace Polyjam_2022.Tests
             Assert.IsTrue(resourceHolder.Resources.TryGetCurrentAmount(ResourceType.Stone, out amount));
             Assert.IsTrue(amount == 8);
 
-            action = ActionTemplates.GetAllResourcesFromSource(mockResourceManipulator, resourceHolder, holderPosition);
+            action = ResourceTransferActions.GetResourcesOfAllTypesFromSource(mockResourceManipulator, resourceHolder, holderPosition);
             Assert.IsTrue(action.IsValid());
             Assert.IsTrue(action.TryExecute(0.0f));
             amount = -1;
@@ -81,7 +81,7 @@ namespace Polyjam_2022.Tests
             Assert.IsTrue(resourceHolder.Resources.TryGetCurrentAmount(ResourceType.Stone, out amount));
             Assert.IsTrue(amount == 0);
 
-            action = ActionTemplates.GiveAllResourcesToDestination(mockResourceManipulator, resourceHolder, holderPosition);
+            action = ResourceTransferActions.GiveResourcesOfAllTypesToDestination(mockResourceManipulator, resourceHolder, holderPosition);
             Assert.IsTrue(action.IsValid());
             Assert.IsTrue(action.TryExecute(0.0f));
             amount = -1;

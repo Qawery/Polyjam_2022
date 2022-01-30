@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Polyjam_2022
 {
-    public class HasCapacityForResources : Precondition
+    public class HasCapacityForResources : Condition
     {
         public readonly ResourceManager resourceManager;
         public readonly int requiredCapacity;

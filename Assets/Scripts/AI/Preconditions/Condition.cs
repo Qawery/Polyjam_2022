@@ -1,6 +1,6 @@
 namespace Polyjam_2022
 {
-    public abstract class Precondition
+    public abstract class Condition
     {
         public abstract bool IsSatisified();
     }

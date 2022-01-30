@@ -2,7 +2,7 @@ using UnityEngine.Assertions;
 
 namespace Polyjam_2022
 {
-    public class HasAmountOfResource : Precondition
+    public class HasAmountOfResource : Condition
     {
         public readonly ResourceManager resources;
         public readonly ResourceType type;

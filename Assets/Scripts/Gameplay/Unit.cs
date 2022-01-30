@@ -4,9 +4,9 @@ using UnityEngine.Assertions;
 
 namespace Polyjam_2022
 {
-    public class Unit : MonoBehaviour, IResourceManipulator
+    public class Unit : MonoBehaviour, IResourceManipulator, IMovableAgent
     {
-        [SerializeField, Range(0, 1000)] private readonly int startingMaxCapacity = 10;
+        [SerializeField, Range(1, 1000)] private readonly int startingMaxCapacity = 10;
         private NavMeshAgent navMeshAgent;
 
         public NavMeshAgent NavMeshAgent => navMeshAgent;

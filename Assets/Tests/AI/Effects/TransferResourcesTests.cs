@@ -10,7 +10,7 @@ namespace Polyjam_2022.Tests
         {
             var source = new ResourceManager(10, new List<(ResourceType type, int amount)> { (ResourceType.Gold, 10) });
             var destination = new ResourceManager(10, ResourceType.Gold);
-            var transferResources = new TransferResources(source, destination, new List<(ResourceType type, int amount)>{ (ResourceType.Gold, 10) });
+            var transferResources = new TransferAmountOfResources(source, destination, new List<(ResourceType type, int amount)>{ (ResourceType.Gold, 10) });
             transferResources.TakeEffect(0.0f);
 
             Assert.IsTrue(source.CurrentTotalAmount == 0);
