@@ -10,6 +10,7 @@ namespace Polyjam_2022
         {
             Container.Bind<Button>().FromComponentInChildren();
             Container.Bind<TextMeshProUGUI>().FromComponentInChildren();
+            Container.Bind<Image>().FromComponentSibling();
         }
     }
 }

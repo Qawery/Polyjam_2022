@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 9200927987783693339}
   - component: {fileID: -8262911277480030824}
   - component: {fileID: 2849540978708678560}
+  - component: {fileID: -4090768107444620517}
   m_Layer: 7
   m_Name: HutConstructionSite
   m_TagString: Untagged
@@ -278,5 +279,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a60ca682b04f4a2f903d066dde5ba327, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4090768107444620517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5080189710595538350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75fe8e1f9d424297993c5ed57ea630ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

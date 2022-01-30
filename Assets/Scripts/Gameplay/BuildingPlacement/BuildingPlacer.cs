@@ -70,11 +70,14 @@ namespace Polyjam_2022
             }
 
             Vector3 placementPosition = GetGroundPosition(buildingPhantom.transform.position);
-            var constructionSite = world.Instantiate(buildingPrefabData.ConstructionSitePrefab, placementPosition,
-                buildingPhantom.transform.rotation);
-            constructionSite.PlaceBaseAtPosition(placementPosition);
-            constructionSite.BuildingData = buildingData;
-            constructionSite.PlacementPosition = buildingPhantom.transform.position;
+            world.Instantiate(buildingPrefabData.ConstructionSitePrefab, placementPosition,
+                buildingPhantom.transform.rotation, site =>
+                {
+                    site.PlaceBaseAtPosition(placementPosition);
+                    site.BuildingData = buildingData;
+                    site.PlacementPosition = buildingPhantom.transform.position;
+                });
+            
             return true;
         }
 

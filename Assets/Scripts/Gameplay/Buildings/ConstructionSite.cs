@@ -13,10 +13,10 @@ namespace Polyjam_2022
         
         public BuildingData BuildingData
         {
+            get => buildingData;
             set
             {
-                Resources = new ResourceManager(int.MaxValue,
-                    value.ConstructionResourceRequirements.Select(requirement => requirement.ResourceType));
+                Resources = new ResourceManager(1000, value.ConstructionResourceRequirements.Select(requirement => requirement.ResourceType));
                 Resources.OnTotalAmountChanged += newValue =>
                 {
                     foreach (ResourceRequirement requirement in buildingData.ConstructionResourceRequirements)
