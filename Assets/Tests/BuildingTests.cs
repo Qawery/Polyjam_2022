@@ -88,6 +88,12 @@ namespace Polyjam_2022.Tests
                     .GetComponent<ComponentType>();
             }
 
+            public ComponentType Instantiate<ComponentType>(ComponentType prefab, Vector3 position, Quaternion rotation,
+                Action<ComponentType> initializer, Transform parent = null) where ComponentType : MonoBehaviour
+            {
+                throw new NotImplementedException();
+            }
+
             public Class CreateInstance<Class>()
             {
                 return default;

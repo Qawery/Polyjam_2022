@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: -1110869619077918515}
   - component: {fileID: -7963521223581645885}
   - component: {fileID: -1456897938793001076}
+  - component: {fileID: 2680402339368438690}
   m_Layer: 7
   m_Name: ForgeConstructionSite
   m_TagString: Untagged
@@ -183,6 +184,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a60ca682b04f4a2f903d066dde5ba327, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2680402339368438690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5080189710595538350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75fe8e1f9d424297993c5ed57ea630ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7771734461584444789
