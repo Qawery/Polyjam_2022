@@ -1,5 +1,4 @@
 using UnityEngine.Assertions;
-using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
@@ -63,16 +62,6 @@ namespace Polyjam_2022
                     InsertResource(startingResource.type, startingResource.amount);
                 }
             }
-        }
-
-        public static List<ResourceType> GetAllTypes()
-        {
-            var result = new List<ResourceType>();
-            foreach (var resourceType in Enum.GetValues(typeof(ResourceType)).Cast<ResourceType>())
-            {
-                result.Add(resourceType);
-            }
-            return result;
         }
 
         public bool SupportsType(ResourceType type)

@@ -9,7 +9,7 @@ namespace Polyjam_2022
                                                     IResourceHolder sourceResourceHolder,
                                                     IPositionProvider sourcePosition)
         {
-            return GetResourcesOfTypeFromSource(resourceManipulator, sourceResourceHolder, sourcePosition, ResourceManager.GetAllTypes());
+            return GetResourcesOfTypeFromSource(resourceManipulator, sourceResourceHolder, sourcePosition, ResourceHelpers.GetAllTypes());
         }
 
         public static Action GetResourcesOfTypeFromSource(IResourceManipulator resourceManipulator,
@@ -22,7 +22,8 @@ namespace Polyjam_2022
             Assert.IsNotNull(sourcePosition);
             Assert.IsNotNull(resources);
             return new Action(new List<Condition>{ new CloserThan(resourceManipulator, sourcePosition, resourceManipulator.Range) },
-                              new List<Effect> { new TransferTypesOfResources(sourceResourceHolder, resourceManipulator, resources) }, null);
+                              new List<Effect> { new TransferTypesOfResources(sourceResourceHolder, resourceManipulator,
+                              ResourceHelpers.GetCommonResources(resourceManipulator.Resources.SupportedTypes, ResourceHelpers.GetCommonResources(resources, sourceResourceHolder.Resources.SupportedTypes))) }, null);
         }
 
         public static Action GetResourcesAmountFromSource(IResourceManipulator resourceManipulator,
@@ -48,7 +49,7 @@ namespace Polyjam_2022
                                                         IResourceHolder destinationResourceHolder,
                                                         IPositionProvider destinationPosition)
         {
-            return GiveResourcesOfTypeToDestination(resourceManipulator, destinationResourceHolder, destinationPosition, ResourceManager.GetAllTypes());
+            return GiveResourcesOfTypeToDestination(resourceManipulator, destinationResourceHolder, destinationPosition, ResourceHelpers.GetAllTypes());
         }
 
         public static Action GiveResourcesOfTypeToDestination(IResourceManipulator resourceManipulator,
@@ -61,7 +62,9 @@ namespace Polyjam_2022
             Assert.IsNotNull(destinationPosition);
             Assert.IsNotNull(resources);
             return new Action(new List<Condition> { new CloserThan(resourceManipulator, destinationPosition, resourceManipulator.Range) },
-                              new List<Effect> { new TransferTypesOfResources(resourceManipulator, destinationResourceHolder, resources) }, null);
+                              new List<Effect> { new TransferTypesOfResources(resourceManipulator, destinationResourceHolder, 
+                                ResourceHelpers.GetCommonResources(resourceManipulator.Resources.SupportedTypes, 
+                                    ResourceHelpers.GetCommonResources(resources, destinationResourceHolder.Resources.SupportedTypes))) }, null);
         }
 
         public static Action GiveResourcesAmountToDestination(IResourceManipulator resourceManipulator,

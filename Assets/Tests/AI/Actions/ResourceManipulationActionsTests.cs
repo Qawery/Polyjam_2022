@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Polyjam_2022.Tests
 {
@@ -99,7 +97,7 @@ namespace Polyjam_2022.Tests
     public class MockResourceManipulator : IResourceManipulator
     {
         public MockPositionProvider MockPositionProvider { get; private set; } = new MockPositionProvider();
-        public ResourceManager Resources { get; private set; } = new ResourceManager(50, ResourceManager.GetAllTypes());
+        public ResourceManager Resources { get; private set; } = new ResourceManager(50, ResourceHelpers.GetAllTypes());
         public Vector3 Position => MockPositionProvider.Position;
         public float Range => 2.0f;
     }

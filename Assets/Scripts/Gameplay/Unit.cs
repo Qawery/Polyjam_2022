@@ -19,7 +19,7 @@ namespace Polyjam_2022
             navMeshAgent = GetComponent<NavMeshAgent>();
             Assert.IsNotNull(navMeshAgent);
             var allResourceTypes = 
-            Resources = new ResourceManager(startingMaxCapacity, ResourceManager.GetAllTypes());
+            Resources = new ResourceManager(startingMaxCapacity, ResourceHelpers.GetAllTypes());
         }
     }
 }

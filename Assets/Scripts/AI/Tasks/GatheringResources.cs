@@ -103,25 +103,10 @@ namespace Polyjam_2022
             var potentialSources = GameObject.FindObjectsOfType<ResourceSource>();
             foreach (var potentialSource in potentialSources)
             {
-                bool matchingResourceType = false;
-                foreach (var potentialType in potentialSource.Resources.SupportedTypes)
-                {
-                    foreach (var wantedType in wantedResources)
-                    {
-                        if (potentialType == wantedType)
-                        {
-                            matchingResourceType = true;
-                            break;
-                        }
-                    }
-                    if (matchingResourceType)
-                    {
-                        break;
-                    }
-                }
-                if (matchingResourceType && (currentTargetResourceSource == null ||
-                    Vector3.Distance(resourceManipulator.Position, potentialSource.Position) <
-                    Vector3.Distance(resourceManipulator.Position, currentTargetResourceSource.Position)))
+                if (ResourceHelpers.HasCommonResources(wantedResources, potentialSource.Resources.SupportedTypes) && 
+                    (currentTargetResourceSource == null ||
+                        Vector3.Distance(resourceManipulator.Position, potentialSource.Position) <
+                        Vector3.Distance(resourceManipulator.Position, currentTargetResourceSource.Position)))
                 {
                     currentTargetResourceSource = potentialSource;
                 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Polyjam_2022
@@ -14,15 +10,15 @@ namespace Polyjam_2022
         HashSet<Unit> availableUnits = new HashSet<Unit>();
         public event System.Action<ResourceRequest, Unit, ResourceSource> OnRequestAssigned;
 
-
         public ResourceGatheringAI()
         {
-            foreach(var resourceType in ResourceManager.GetAllTypes())
+            foreach(var resourceType in ResourceHelpers.GetAllTypes())
             {
                 sources.Add(resourceType, new List<ResourceSource>());
             }
 
         }
+
         public void AddResourceSource(ResourceSource source)
         {
             foreach (var type in source.Resources.SupportedTypes)
